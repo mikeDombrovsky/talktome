@@ -5,9 +5,9 @@ CREATE TABLE users (
     role VARCHAR NOT NULL,
     first_name VARCHAR NOT NULL,
     last_name VARCHAR NOT NULL,
-    email VARCHAR NOT NULL,
+    email VARCHAR NOT NULL UNIQUE,
     password VARCHAR NOT NULL,
-    phone VARCHAR,
+    phone VARCHAR UNIQUE,
     PRIMARY KEY (user_id)
 );
 
