@@ -1,8 +1,9 @@
 // import logo from "./logo.svg";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/AuthProvider";
 
 const NavBar = () => {
-  const { token, handleLogout, handleLogin } = useAuth();
+  const { token, handleLogout } = useAuth();
   return (
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">
@@ -28,22 +29,24 @@ const NavBar = () => {
               Home
             </Link>
           </li>
-          <li class="nav-item">
-            <Link class="nav-link" to="/register">
-              Register
-            </Link>
-          </li>
 
           {token ? (
             <li class="nav-item">
-              <button class=" btn btn-success">log out</button>
+              <button class=" btn btn-success" onClick={handleLogout}>log out</button>
             </li>
           ) : (
-            <li class="nav-item">
-              <Link class="nav-link" to="/login">
-                Login
-              </Link>
-            </li>
+            <>
+              <li class="nav-item">
+                <Link class="nav-link" to="/register">
+                  Register
+                </Link>
+              </li>{" "}
+              <li class="nav-item">
+                <Link class="nav-link" to="/login">
+                  Login
+                </Link>
+              </li>
+            </>
           )}
         </ul>
         <form class="form-inline my-2 my-lg-0">

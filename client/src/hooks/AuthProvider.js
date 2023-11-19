@@ -8,12 +8,18 @@ const AuthProvider = ({ children }) => {
 
   const handleLogin = (newToken) => {
     setToken(newToken);
-    Cookies.set("token", newToken);
+    // Cookies.set("token", newToken);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setToken(null);
-    Cookies.remove("token");
+    // Cookies.remove("token");
+    // Cookies.remove("refreshToken");
+    try {
+      fetch("/api/auth/logout", { method: "POST" });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
