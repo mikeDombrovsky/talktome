@@ -1,8 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const secretKey = "12345";
-
-function authenticate2(req, res, next) {
+function authenticate(req, res, next) {
   const accessToken = req.cookies.token;
   const refreshToken = req.cookies.refreshtoken;
 
@@ -10,7 +8,8 @@ function authenticate2(req, res, next) {
     return res.status(401).json({ msg: "token not found" });
   }
   // Attempt to refresh the access token using the refresh token
-  jwt.verify(refreshToken, secretKey, (err, user) => {
+  const secret = process.env.SECRET;
+  jwt.verify(refreshToken, secret, (err, user) => {
     //if token invalid
     if (err) {
       //if refresh token invalid - access denied
@@ -19,14 +18,14 @@ function authenticate2(req, res, next) {
       }
 
       //new access token generation
-      const newToken = jwt.sign(
-        { id: user.id, username: user.username },
-        secretKey,
-        { expiresIn: "1h" }
-      );
+      const user_id = user.user_id;
+      const first_name = user.first_name;
+      const newToken = jwt.sign({ user_id, first_name }, secret, {
+        expiresIn: "60s",
+      });
 
       //set to cookie
-      res.cookie("token", newToken, { httpOnly: true });
+      res.cookie("token", newToken, { httpOnly: true, maxAge: 1000 * 60 });
     }
     //attach user obj to request
     req.user = user;
@@ -34,4 +33,4 @@ function authenticate2(req, res, next) {
   });
 }
 
-export default authenticate2;
+export default authenticate;

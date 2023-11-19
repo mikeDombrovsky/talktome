@@ -3,19 +3,19 @@ import NavBar from "./components/NavBar/NavBar";
 import { useAuth } from "./hooks/AuthProvider";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./components/Home/Home";
 
 function App() {
   const { token, handleLogout, handleLogin } = useAuth();
 
-  // useEffect(async () => {
-  // const response = await fetch("http://127.0.0.1:5005/refresh", {
-  //   method: "POST",
-  // });
-  // const data = await response.json();
-  // handleLogin(data.token);
-  // }, []);
+  useEffect(async () => {
+    const response = await fetch("/api/refresh", {
+      method: "POST",
+    });
+    const data = await response.json();
+    handleLogin(data.token);
+  },[]);
 
   return (
     <>

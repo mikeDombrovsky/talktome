@@ -2,12 +2,14 @@
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
+  const { token, handleLogout, handleLogin } = useAuth();
   return (
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">
         {/* <img src={logo} alt="logo" width={100} /> */}
-       <h4>Talk To Me</h4> 
+        <h4>Talk To Me</h4>
       </a>
+
       <button
         class="navbar-toggler"
         type="button"
@@ -19,17 +21,11 @@ const NavBar = () => {
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+          <li class="nav-item">
             <Link class="nav-link" to="/">
               Home
-            </Link>
-          </li>
-          <li class="nav-item">
-            <Link class="nav-link" to="/login">
-              Login
             </Link>
           </li>
           <li class="nav-item">
@@ -37,6 +33,18 @@ const NavBar = () => {
               Register
             </Link>
           </li>
+
+          {token ? (
+            <li class="nav-item">
+              <button class=" btn btn-success">log out</button>
+            </li>
+          ) : (
+            <li class="nav-item">
+              <Link class="nav-link" to="/login">
+                Login
+              </Link>
+            </li>
+          )}
         </ul>
         <form class="form-inline my-2 my-lg-0">
           <input
