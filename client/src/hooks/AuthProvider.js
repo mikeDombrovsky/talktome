@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -8,13 +9,11 @@ const AuthProvider = ({ children }) => {
 
   const handleLogin = (newToken) => {
     setToken(newToken);
-    // Cookies.set("token", newToken);
+    // Cookies.set(newToken);
   };
 
   const handleLogout = async () => {
     setToken(null);
-    // Cookies.remove("token");
-    // Cookies.remove("refreshToken");
     try {
       fetch("/api/auth/logout", { method: "POST" });
     } catch (err) {

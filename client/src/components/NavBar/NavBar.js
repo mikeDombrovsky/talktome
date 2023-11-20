@@ -6,10 +6,10 @@ const NavBar = () => {
   const { token, handleLogout } = useAuth();
   return (
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">
+      <Link class="navbar-brand" to="/">
         {/* <img src={logo} alt="logo" width={100} /> */}
         <h4>Talk To Me</h4>
-      </a>
+      </Link>
 
       <button
         class="navbar-toggler"
@@ -31,16 +31,30 @@ const NavBar = () => {
           </li>
 
           {token ? (
-            <li class="nav-item">
-              <button class=" btn btn-success" onClick={handleLogout}>log out</button>
-            </li>
+            <>
+              <li class="nav-item">
+                <Link class="nav-link" to="/profile">
+                  Profile
+                </Link>
+              </li>
+              <li class="nav-item">
+                <Link class="nav-link" to="/talktome">
+                  Talk to me 
+                </Link>
+              </li>
+              <li class="nav-item">
+                <button class=" btn btn-success" onClick={handleLogout}>
+                  log out
+                </button>
+              </li>
+            </>
           ) : (
             <>
               <li class="nav-item">
                 <Link class="nav-link" to="/register">
                   Register
                 </Link>
-              </li>{" "}
+              </li>
               <li class="nav-item">
                 <Link class="nav-link" to="/login">
                   Login
@@ -49,17 +63,19 @@ const NavBar = () => {
             </>
           )}
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-            Search
-          </button>
-        </form>
+        {token ? (
+          <form class="form-inline my-2 my-lg-0">
+            <input
+              class="form-control mr-sm-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+              Search
+            </button>
+          </form>
+        ) : null}
       </div>
     </nav>
   );

@@ -5,6 +5,8 @@ import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./components/Home/Home";
+import { Profile } from "./components/Profile/Profile";
+import { TalkToMe } from "./components/TalkToMe";
 
 function App() {
   const { token, handleLogout, handleLogin } = useAuth();
@@ -36,6 +38,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/talktome" element={<TalkToMe />} />
         </Routes>
       </div>
     </>

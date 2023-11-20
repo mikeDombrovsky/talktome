@@ -1,14 +1,16 @@
 import { useAuth } from "../../hooks/AuthProvider";
 import { useState } from "react";
+import { NotAuth } from "../NotAuth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { handleLogin } = useAuth();
-
+  const { token, handleLogin } = useAuth();
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
   });
   const { email, password } = inputs;
+  const navigate = useNavigate();
 
   const onChange = (e) => {
     setInputs({
@@ -28,7 +30,12 @@ const Login = () => {
       });
 
       const parsedResp = await response.json();
+      setInputs({
+        email: "",
+        password: "",
+      });
       handleLogin(parsedResp.token);
+      navigate('/pofile')
     } catch (err) {
       console.log(err.message);
     }

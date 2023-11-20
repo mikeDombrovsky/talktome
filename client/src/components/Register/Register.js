@@ -1,15 +1,19 @@
 import { useState } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
+import { NotAuth } from "../NotAuth";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const { handleLogin } = useAuth();
-
+  let navigate = useNavigate();
   const [inputs, setInputs] = useState({
-    name: "",
+    role: "",
+    first_name: "",
     email: "",
     password: "",
+    phone: "",
   });
-  const { name, email, password } = inputs;
+  const { role, first_name, email, password, phone } = inputs;
   const onChange = (e) => {
     setInputs({
       ...inputs,
@@ -19,7 +23,7 @@ const Register = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const body = { name, email, password };
+    const body = { role, first_name, email, password, phone };
     try {
       const response = await fetch("/api/auth/register", {
         method: "POST",
@@ -28,7 +32,15 @@ const Register = () => {
       });
 
       const parsedResp = await response.json();
+      setInputs({
+        role: "",
+        first_name: "",
+        email: "",
+        password: "",
+        phone: "",
+      });
       handleLogin(parsedResp.token);
+      navigate('/profile')
     } catch (err) {
       console.log(err.message);
     }
@@ -38,6 +50,38 @@ const Register = () => {
     <>
       <h1 className="text-center my-5">Register</h1>
       <form onSubmit={(e) => onSubmit(e)}>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="role"
+            id="exampleRadios1"
+            value="talktome"
+            checked
+          />
+          <label class="form-check-label" for="exampleRadios1">
+            I need to talk
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="role"
+            id="exampleRadios2"
+            value="ihearyou"
+          />
+          <label class="form-check-label" for="exampleRadios2">
+            I want to listen
+          </label>
+        </div>
+        <input
+          type="text"
+          name="first_name"
+          placeholder="first name"
+          className="form-control my-3"
+          onChange={(e) => onChange(e)}
+        />
         <input
           type="email"
           name="email"
@@ -55,11 +99,12 @@ const Register = () => {
         />
         <input
           type="text"
-          name="name"
-          placeholder="name"
+          name="phone"
+          placeholder="099-999-99-99"
           className="form-control my-3"
           onChange={(e) => onChange(e)}
         />
+
         <button className="btn btn-success d-block">Submit</button>
       </form>
     </>

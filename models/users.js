@@ -1,13 +1,12 @@
 import { db } from "../config/db.js";
 
 export const _register = (user) => {
-  const { role, first_name, last_name, email, password, phone } = user;
+  const { role, first_name, email, password, phone } = user;
 
   return db("users").insert(
     {
       role,
       first_name,
-      last_name,
       email,
       password,
       phone,
@@ -18,6 +17,6 @@ export const _register = (user) => {
 
 export const _login = (email) => {
   return db("users")
-    .select("user_id", "role", "email", "password")
+    .select("user_id", "role", "email", "password",'phone')
     .where({ email });
 };

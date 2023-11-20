@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/AuthProvider";
-import { useEffect } from "react";
-const { token, handleLogout, handleLogin } = useAuth();
+import { useEffect, useState } from "react";
 
 export const Auth = (props) => {
+  const { token, handleLogout, handleLogin } = useAuth();
+  const {redirect, setRedirect} = useState(false);
   let navigate = useNavigate();
 
   useEffect(async () => {
@@ -14,15 +15,16 @@ export const Auth = (props) => {
         });
         const data = await response.json();
         handleLogin(data.token);
+        setRedirect(true)
       } catch (err) {
         console.log(err);
         handleLogout();
+        setRedirect(false)
         navigate("/login");
       }
     };
-    
     verify();
   }, []);
 
-  return token ? props.children : null;
+  return redirect ? props.children : null;
 };
