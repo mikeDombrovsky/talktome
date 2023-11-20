@@ -7,7 +7,7 @@ export const Auth = (props) => {
   const {redirect, setRedirect} = useState(false);
   let navigate = useNavigate();
 
-  useEffect(async () => {
+  useEffect( () => {
     const verify = async () => {
       try {
         const response = await fetch("/api/auth/refresh", {
