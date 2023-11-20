@@ -2,12 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
 
 const Register = () => {
-  const { token, handleLogin } = useAuth();
-  //if logged in go to profule page
-  if (token) {
-    console.log(token);
-    window.location.replace("/profile");
-  }
+  const { handleLogin } = useAuth();
 
   const [inputs, setInputs] = useState({
     role: "",

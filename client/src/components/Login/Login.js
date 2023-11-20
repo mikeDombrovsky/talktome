@@ -2,12 +2,7 @@ import { useAuth } from "../../hooks/AuthProvider";
 import { useState } from "react";
 
 const Login = () => {
-  const { token, handleLogin } = useAuth();
-  //if logged in go to profule page
-  if (token) {
-    console.log(token);
-    window.location.replace("/profile");
-  }
+  const { handleLogin } = useAuth();
 
   const [inputs, setInputs] = useState({
     email: "",
