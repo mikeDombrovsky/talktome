@@ -1,16 +1,19 @@
 import { useAuth } from "../../hooks/AuthProvider";
 import { useState } from "react";
-import { NotAuth } from "../NotAuth";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { token, handleLogin } = useAuth();
+  //if logged in go to profule page
+  if (token) {
+    console.log(token);
+    window.location.replace("/profile");
+  }
+
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
   });
   const { email, password } = inputs;
-  const navigate = useNavigate();
 
   const onChange = (e) => {
     setInputs({
@@ -22,6 +25,8 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const body = { email, password };
+    console.log(email, password);
+
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
@@ -34,8 +39,9 @@ const Login = () => {
         email: "",
         password: "",
       });
+      console.log(email, password);
       handleLogin(parsedResp.token);
-      navigate('/pofile')
+      window.location.replace("/profile");
     } catch (err) {
       console.log(err.message);
     }
@@ -51,6 +57,7 @@ const Login = () => {
           placeholder="email"
           className="form-control my-3"
           value={email}
+          required
           onChange={(e) => onChange(e)}
         />
         <input
@@ -58,6 +65,7 @@ const Login = () => {
           name="password"
           placeholder="password"
           className="form-control my-3"
+          required
           onChange={(e) => onChange(e)}
         />
         <button className="btn btn-success d-block">Submit</button>

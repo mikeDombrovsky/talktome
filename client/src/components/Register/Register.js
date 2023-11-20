@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
-import { NotAuth } from "../NotAuth";
-import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const { handleLogin } = useAuth();
-  let navigate = useNavigate();
+  const { token, handleLogin } = useAuth();
+  //if logged in go to profule page
+  if (token) {
+    console.log(token);
+    window.location.replace("/profile");
+  }
+
   const [inputs, setInputs] = useState({
     role: "",
     first_name: "",
@@ -40,7 +43,7 @@ const Register = () => {
         phone: "",
       });
       handleLogin(parsedResp.token);
-      navigate('/profile')
+      window.location.replace("/profile");
     } catch (err) {
       console.log(err.message);
     }
@@ -80,6 +83,7 @@ const Register = () => {
           name="first_name"
           placeholder="first name"
           className="form-control my-3"
+          required
           onChange={(e) => onChange(e)}
         />
         <input
@@ -88,6 +92,7 @@ const Register = () => {
           placeholder="email"
           className="form-control my-3"
           value={email}
+          required
           onChange={(e) => onChange(e)}
         />
         <input
@@ -95,6 +100,7 @@ const Register = () => {
           name="password"
           placeholder="password"
           className="form-control my-3"
+          required
           onChange={(e) => onChange(e)}
         />
         <input
@@ -102,6 +108,7 @@ const Register = () => {
           name="phone"
           placeholder="099-999-99-99"
           className="form-control my-3"
+          required
           onChange={(e) => onChange(e)}
         />
 

@@ -1,17 +1,15 @@
 import { useEffect } from "react";
-import NavBar from "./components/NavBar/NavBar";
+import { Route, Routes } from "react-router-dom";
 import { useAuth } from "./hooks/AuthProvider";
+import NavBar from "./components/NavBar/NavBar";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
-import { Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./components/Home/Home";
-import { Profile } from "./components/Profile/Profile";
-import { TalkToMe } from "./components/TalkToMe";
+import Profile from "./components/Profile/Profile";
+import TalkToMe from "./components/TalkToMe";
 
 function App() {
   const { token, handleLogout, handleLogin } = useAuth();
-
-  let navigate = useNavigate();
 
   useEffect(() => {
     const verify = async () => {
@@ -24,7 +22,7 @@ function App() {
       } catch (err) {
         console.log(err);
         handleLogout();
-        navigate("/login");
+        window.location.replace("/login");
       }
     };
     verify();
@@ -40,6 +38,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/talktome" element={<TalkToMe />} />
+          <Route path="/ihearyou" element={<IHearYou />} />
+          <Route path="*" element={<Home />} />
         </Routes>
       </div>
     </>

@@ -1,4 +1,4 @@
-// import logo from "./logo.svg";
+import logo from "./logo-32x32.png";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthProvider";
 
@@ -7,8 +7,9 @@ const NavBar = () => {
   return (
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <Link class="navbar-brand" to="/">
-        {/* <img src={logo} alt="logo" width={100} /> */}
-        <h4>Talk To Me</h4>
+        <h4>
+          <img src={logo} alt="logo" /> Talk To Me
+        </h4>
       </Link>
 
       <button
@@ -39,7 +40,12 @@ const NavBar = () => {
               </li>
               <li class="nav-item">
                 <Link class="nav-link" to="/talktome">
-                  Talk to me 
+                  Talk to me
+                </Link>
+              </li>
+              <li class="nav-item">
+                <Link class="nav-link" to="/ihearyou">
+                  I hear you
                 </Link>
               </li>
               <li class="nav-item">

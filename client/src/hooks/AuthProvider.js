@@ -1,6 +1,5 @@
 import { createContext, useContext, useState } from "react";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -9,7 +8,6 @@ const AuthProvider = ({ children }) => {
 
   const handleLogin = (newToken) => {
     setToken(newToken);
-    // Cookies.set(newToken);
   };
 
   const handleLogout = async () => {

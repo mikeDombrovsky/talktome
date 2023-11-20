@@ -1,13 +1,10 @@
 import { useAuth } from "../hooks/AuthProvider";
-import { Auth } from "./Auth";
-import { useNavigate } from "react-router-dom";
 
-export const TalkToMe = () => {
-  const navigate = useNavigate();
+const TalkToMe = () => {
   const { token } = useAuth();
   if (!token) {
     console.log(token);
-    navigate("/login");
+    window.location.replace("/login");
   }
 
   return (
@@ -18,3 +15,5 @@ export const TalkToMe = () => {
     </>
   );
 };
+
+export default TalkToMe;
