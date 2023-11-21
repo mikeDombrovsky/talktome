@@ -44,3 +44,33 @@ VALUES
         '12345',
         '408-237-2343'
     );
+
+CREATE TABLE profiles (
+    user_id uuid NOT NULL PRIMARY KEY,
+    cards VARCHAR [] NOT NULL,
+    favorites VARCHAR [] NOT NULL,
+    FOREIGN KEY (user_id)
+    REFERENCES users (user_id)
+);
+
+INSERT INTO profiles (
+  user_id, 
+  cards, 
+  favorites
+)
+VALUES
+(
+  'd6a62fd7-95cb-4df2-929d-2f86ee31c0ba', ARRAY ['card1','card2'], ARRAY ['card1','card2']
+)
+
+INSERT INTO profiles (
+  user_id, 
+  cards, 
+  favorites
+)
+VALUES
+(
+  '30244416-d954-4f6a-9ecb-0d79b5d5d44d',
+  '{"card1","card2"}',
+  '{"card1","card2"}'
+);

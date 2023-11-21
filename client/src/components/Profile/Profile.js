@@ -2,8 +2,9 @@
 const Profile = () => {
   return (
     <>
-      <div className="container">
-        <h1>Profile</h1>
+      <div className="text-right container">
+        <h1 className="my-5">Profile</h1>
+        
       </div>
     </>
   );

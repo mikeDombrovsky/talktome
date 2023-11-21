@@ -18,24 +18,23 @@ app.use(cors());
 app.use(cookieParser());
 
 //routers
-app.use("/api/auth", auth_router);
 //public route
-app.get("/api/home", (req, res) => {
-  res.json({ msg: "hello!" });
-});
+app.use("/api/auth", auth_router);
+
 //protected route
 app.get("/api/profile", authMiddleware, (req, res) => {
-  res.json({ msg: `Welcome, ${req.body.user_name}` });
+  res.json({ msg: `Welcome, ${req.body.user.user_name}`, user: req.body.user });
 });
 
 //routes for client
+// All other requests not handled before will return our React app
 app.use(express.static(path.join(__dirname, "/client/build")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
-});
+//for all get requests to server but now front-end copes with it as well
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+// });
 
-// All other GET requests not handled before will return our React app
 app.listen(process.env.PORT, (err) =>
   console.log(err ? err : "run on " + process.env.PORT)
 );
