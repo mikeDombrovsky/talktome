@@ -5,7 +5,7 @@ const Register = () => {
   const { handleLogin } = useAuth();
 
   const [inputs, setInputs] = useState({
-    role: "",
+    role: "talktome",
     first_name: "",
     email: "",
     password: "",
