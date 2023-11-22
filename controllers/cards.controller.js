@@ -1,11 +1,17 @@
-import { _addCard, _updateCard, _deleteCard, _getCardsById, _getCardsByUserId} from '../models/cards'
+import {
+  _addCard,
+  _updateCard,
+  _deleteCard,
+  _getCardsById,
+  _getCardsByUserId,
+} from "../models/cards";
 
 export const addCard = async (req, res) => {
   const { user_id } = req.user;
   const { message } = req.body;
 
   try {
-    const row = await _addProfile({
+    const row = await _addCard({
       user_id,
       message,
     });
@@ -25,6 +31,11 @@ export const updateCard = async (req, res) => {
     if (row.length === 0) {
       return res.status(404).json({ msg: "card not found" });
     }
+
+    if (row[0].user_id !== user_id) {
+      return res.status(401).json({ msg: "unauthorized" });
+    }
+
     const row2 = await _updateCard({
       user_id,
       card_id,
@@ -38,11 +49,9 @@ export const updateCard = async (req, res) => {
   }
 };
 
-
-
 export const getCardsById = async (req, res) => {
   const { user_id, first_name } = req.user;
-  
+
   try {
     const row = await _getProfile(user_id);
     if (row.length === 0) {
@@ -64,4 +73,3 @@ export const getCardsById = async (req, res) => {
     res.status(500).json({ msg: "something went wrong" });
   }
 };
-

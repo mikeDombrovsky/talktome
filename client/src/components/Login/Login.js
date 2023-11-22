@@ -28,15 +28,18 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-
       const parsedResp = await response.json();
+
       setInputs({
         email: "",
         password: "",
       });
-      console.log(email, password);
+
+      if(!response.ok){
+        return console.log("not ok!", response, parsedResp.msg);
+      }
+      
       handleLogin(parsedResp.token);
-      window.location.replace("/profile");
     } catch (err) {
       console.log(err.message);
     }
@@ -60,6 +63,7 @@ const Login = () => {
           name="password"
           placeholder="password"
           className="form-control my-3"
+          value={password}
           required
           onChange={(e) => onChange(e)}
         />

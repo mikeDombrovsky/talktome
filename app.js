@@ -31,9 +31,9 @@ app.get("/api/profile", authMiddleware, (req, res) => {
 app.use(express.static(path.join(__dirname, "/client/build")));
 
 //for all get requests to server but now front-end copes with it as well
-// app.get("*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
-// });
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});
 
 app.listen(process.env.PORT, (err) =>
   console.log(err ? err : "run on " + process.env.PORT)

@@ -5,23 +5,29 @@ const Register = () => {
   const { handleLogin } = useAuth();
 
   const [inputs, setInputs] = useState({
-    role: "talktome",
     first_name: "",
     email: "",
     password: "",
     phone: "",
   });
-  const { role, first_name, email, password, phone } = inputs;
+  const { first_name, email, password, phone } = inputs;
+
   const onChange = (e) => {
     setInputs({
       ...inputs,
       [e.target.name]: e.target.value,
     });
+    console.log(e.target.name, e.target.value);
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    
+    const role = e.target.role.value;
     const body = { role, first_name, email, password, phone };
+    
+    console.log('Register onSubmit body = ', body);
+
     try {
       const response = await fetch("/api/auth/register", {
         method: "POST",
@@ -30,15 +36,16 @@ const Register = () => {
       });
 
       const parsedResp = await response.json();
+      if(!response.ok){
+        return console.log("not ok!", response, parsedResp.msg);
+      }
       setInputs({
-        role: "",
         first_name: "",
         email: "",
         password: "",
         phone: "",
       });
       handleLogin(parsedResp.token);
-      window.location.replace("/profile");
     } catch (err) {
       console.log(err.message);
     }
@@ -55,7 +62,6 @@ const Register = () => {
             name="role"
             id="exampleRadios1"
             value="talktome"
-            checked
           />
           <label class="form-check-label" for="exampleRadios1">
             I need to talk
@@ -77,6 +83,7 @@ const Register = () => {
           type="text"
           name="first_name"
           placeholder="first name"
+          value={first_name}
           className="form-control my-3"
           required
           onChange={(e) => onChange(e)}
@@ -94,6 +101,7 @@ const Register = () => {
           type="password"
           name="password"
           placeholder="password"
+          value={password}
           className="form-control my-3"
           required
           onChange={(e) => onChange(e)}
@@ -102,6 +110,7 @@ const Register = () => {
           type="text"
           name="phone"
           placeholder="099-999-99-99"
+          value={phone}
           className="form-control my-3"
           required
           onChange={(e) => onChange(e)}
