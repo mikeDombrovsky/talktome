@@ -4,9 +4,10 @@ const Cards = (cards) => {
   return (
     <>
      {
-        cards.map(card => {
-            return <Card props={...card}/>
-        })
+        // cards.map(card => {
+        //     return <Card props={...card}/>
+        // })
+        
      }
     </>
   );
