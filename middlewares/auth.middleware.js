@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 function authenticate(req, res, next) {
   const accessToken = req.cookies.token;
-  const refreshToken = req.cookies.refreshtoken;
+  const refreshToken = req.cookies.refreshToken;
 
   if (!accessToken) {
     return res.status(401).json({ msg: "token not found" });

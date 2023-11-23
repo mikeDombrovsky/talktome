@@ -2,9 +2,9 @@ import {
   _addCard,
   _updateCard,
   _deleteCard,
-  _getCardsById,
   _getCardsByUserId,
-} from "../models/cards";
+  _getCardsByIds,
+} from "../models/cards.js";
 
 export const addCard = async (req, res) => {
   const { user_id } = req.user;
@@ -27,7 +27,7 @@ export const updateCard = async (req, res) => {
   const { card_id, message } = req.body;
 
   try {
-    const row = await _getCardsById([card_id]);
+    const row = await _getCardsByIds([card_id]);
     if (row.length === 0) {
       return res.status(404).json({ msg: "card not found" });
     }
@@ -49,24 +49,53 @@ export const updateCard = async (req, res) => {
   }
 };
 
-export const getCardsById = async (req, res) => {
-  const { user_id, first_name } = req.user;
+export const deleteCard = async (req, res) => {
+  const { user_id } = req.user;
 
   try {
-    const row = await _getProfile(user_id);
+    const row = await _getCardsByIds([card_id]);
     if (row.length === 0) {
-      return res.status(404).json({ msg: "profile not found" });
+      return res.status(404).json({ msg: "card not found" });
     }
-    const { cards, favorites } = row[0];
 
-    cards = JSON.parse(cards);
-    favorites = JSON.parse(favorites);
+    if (row[0].user_id !== user_id) {
+      return res.status(401).json({ msg: "unauthorized" });
+    }
+
+    const row2 = await _deleteCard(card_id);
+
+    res.status(200).json({ msg: row2[0] });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "something went wrong" });
+  }
+};
+
+export const getCardsByUserId = async (req, res) => {
+  const { user_id } = req.user;
+
+  try {
+    const row = await _getCardsByUserId(user_id);
+    const cards = row[0];
 
     res.status(200).json({
-      user_id,
-      first_name,
       cards,
-      favorites,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "something went wrong" });
+  }
+};
+
+export const getCardsByIds = async (req, res) => {
+  const { ids } = req.body;
+
+  try {
+    const row = await _getCardsByIds(ids);
+    const cards = row[0];
+
+    res.status(200).json({
+      cards,
     });
   } catch (err) {
     console.log(err);

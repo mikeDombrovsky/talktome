@@ -9,6 +9,7 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import "dotenv/config";
+import cards_router from "./routes/cards.route.js";
 
 const app = express();
 
@@ -22,9 +23,8 @@ app.use(cookieParser());
 app.use("/api/auth", auth_router);
 
 //protected route
-app.get("/api/profile", authMiddleware, (req, res) => {
-  res.json({ msg: `Welcome, ${req.body.user.user_name}`, user: req.body.user });
-});
+app.use("/api/cards", authMiddleware, cards_router);
+
 
 //routes for client
 // All other requests not handled before will return our React app
