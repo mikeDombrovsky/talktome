@@ -23,7 +23,6 @@ function App() {
       } catch (err) {
         console.log(err);
         handleLogout();
-        window.location.replace("/login");
       }
     };
     verify();
