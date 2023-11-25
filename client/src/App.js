@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useAuth } from "./hooks/AuthProvider";
 import NavBar from "./components/NavBar/NavBar";
@@ -8,9 +8,11 @@ import Home from "./components/Home/Home";
 import Profile from "./components/Profile/Profile";
 import TalkToMe from "./components/TalkToMe";
 import IHearYou from "./components/IHearYou";
+import LoadingScreen from "./components/LoadingScreen";
 
 function App() {
   const { token, handleLogout, handleLogin } = useAuth();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const verify = async () => {
@@ -23,6 +25,8 @@ function App() {
       } catch (err) {
         console.log(err);
         handleLogout();
+      } finally {
+        setTimeout(()=> setLoading(false), 1000);
       }
     };
     verify();
@@ -30,33 +34,39 @@ function App() {
 
   return (
     <>
-      <NavBar />
-      <div className="container">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/login"
-            element={!token ? <Login /> : <Navigate to="/profile" />}
-          />
-          <Route
-            path="/register"
-            element={!token ? <Register /> : <Navigate to="/profile" />}
-          />
-          <Route
-            path="/profile"
-            element={token ? <Profile /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/talktome"
-            element={token ? <TalkToMe /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/ihearyou"
-            element={token ? <IHearYou /> : <Navigate to="/login" />}
-          />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </div>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <>
+          <NavBar />
+          <div className="container">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route
+                path="/login"
+                element={!token ? <Login /> : <Navigate to="/profile" />}
+              />
+              <Route
+                path="/register"
+                element={!token ? <Register /> : <Navigate to="/profile" />}
+              />
+              <Route
+                path="/profile"
+                element={token ? <Profile /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/talktome"
+                element={token ? <TalkToMe /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/ihearyou"
+                element={token ? <IHearYou /> : <Navigate to="/login" />}
+              />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </div>
+        </>
+      )}
     </>
   );
 }

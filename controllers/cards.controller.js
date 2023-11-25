@@ -102,3 +102,14 @@ export const getCardsByIds = async (req, res) => {
     res.status(500).json({ msg: "something went wrong" });
   }
 };
+
+export const getAllCards = async (req, res) => {
+  const { offset } = req.body;
+
+  try {
+    
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "something went wrong" });
+  }
+};

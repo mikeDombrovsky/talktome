@@ -1,8 +1,10 @@
 import { useAuth } from "../../hooks/AuthProvider";
 import { useState } from "react";
+import LoadingScreen from "../LoadingScreen";
 
 const Login = () => {
   const { handleLogin } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const [inputs, setInputs] = useState({
     email: "",
@@ -20,7 +22,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const body = { email, password };
-    console.log(email, password);
+    setLoading(true);
 
     try {
       const response = await fetch("/api/auth/login", {
@@ -35,40 +37,48 @@ const Login = () => {
         password: "",
       });
 
-      if(!response.ok){
+      if (!response.ok) {
         return console.log("not ok!", response, parsedResp.msg);
       }
-      
+
       handleLogin(parsedResp.token);
     } catch (err) {
       console.log(err.message);
+    } finally {
+      setTimeout(() => setLoading(false), 1000);
     }
   };
 
   return (
     <>
-      <h1 className="text-center my-5">Login</h1>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <input
-          type="email"
-          name="email"
-          placeholder="email"
-          className="form-control my-3"
-          value={email}
-          required
-          onChange={(e) => onChange(e)}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="password"
-          className="form-control my-3"
-          value={password}
-          required
-          onChange={(e) => onChange(e)}
-        />
-        <button className="btn btn-success d-block">Submit</button>
-      </form>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <>
+          <h1 className="text-center my-5">Login</h1>
+          <form onSubmit={(e) => handleSubmit(e)}>
+            <input
+              type="email"
+              name="email"
+              placeholder="email"
+              className="form-control my-3"
+              value={email}
+              required
+              onChange={(e) => onChange(e)}
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="password"
+              className="form-control my-3"
+              value={password}
+              required
+              onChange={(e) => onChange(e)}
+            />
+            <button className="btn btn-success d-block">Submit</button>
+          </form>
+        </>
+      )}
     </>
   );
 };

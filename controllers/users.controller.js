@@ -3,14 +3,13 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
-  const { role, first_name, email, password, phone } = req.body;
+  const { first_name, email, password, phone } = req.body;
   console.log(req.body);
   try {
     //try to add user to db, error if email and phone not unique
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password + "", salt);
     const row = await _register({
-      role,
       first_name,
       email,
       password: hashedPassword,
