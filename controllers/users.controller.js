@@ -46,6 +46,7 @@ export const login = async (req, res) => {
       return res.status(404).json({ msg: "wrong credentials" });
     }
     //create new access token
+    console.log(row);
     const user_id = row[0].user_id;
     const first_name = row[0].first_name;
     const secret = process.env.SECRET;
@@ -84,8 +85,10 @@ export const refresh = (req, res) => {
     }
 
     //new access 1 hour token generation
+    const {user_id, first_name} = user;
+    
     const accessToken = jwt.sign(
-      { id: user.id, username: user.username },
+      { user_id, first_name},
       secret,
       { expiresIn: "1h" }
     );

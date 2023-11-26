@@ -4,16 +4,19 @@ import {
   _deleteCard,
   _getCardsByUserId,
   _getCardsByIds,
+  _getAllCards,
 } from "../models/cards.js";
 
 export const addCard = async (req, res) => {
-  const { user_id } = req.user;
-  const { message } = req.body;
+  const { user_id, first_name } = req.user;
+  const { message, phone } = req.body;
 
   try {
     const row = await _addCard({
       user_id,
+      first_name,
       message,
+      phone
     });
     res.status(200).json({ msg: row[0] });
   } catch (err) {
@@ -24,7 +27,7 @@ export const addCard = async (req, res) => {
 
 export const updateCard = async (req, res) => {
   const { user_id } = req.user;
-  const { card_id, message } = req.body;
+  const { card_id, message, is_public } = req.body;
 
   try {
     const row = await _getCardsByIds([card_id]);
@@ -40,6 +43,7 @@ export const updateCard = async (req, res) => {
       user_id,
       card_id,
       message,
+      is_public,
     });
 
     res.status(200).json({ msg: row2[0] });
@@ -73,12 +77,12 @@ export const deleteCard = async (req, res) => {
 
 export const getCardsByUserId = async (req, res) => {
   const { user_id } = req.user;
-
+  
   try {
-    const row = await _getCardsByUserId(user_id);
-    const cards = row[0];
-
+    const cards = await _getCardsByUserId(user_id);
+    
     res.status(200).json({
+      user: req.user,
       cards,
     });
   } catch (err) {
@@ -107,7 +111,11 @@ export const getAllCards = async (req, res) => {
   const { offset } = req.body;
 
   try {
-    
+    const row = await _getAllCards(offset);
+    const cards = row[0];
+    res.status(200).json({
+      cards,
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "something went wrong" });

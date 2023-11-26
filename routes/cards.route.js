@@ -16,8 +16,10 @@ cards_router.put("/update", updateCard);
 
 cards_router.delete("/delete", deleteCard);
 
-cards_router.get("/user", getCardsByUserId);
+cards_router.get("/byuserid", getCardsByUserId);
 
 cards_router.post("/ids", getCardsByIds);
+
+cards_router.post("/all", getAllCards);
 
 export default cards_router;

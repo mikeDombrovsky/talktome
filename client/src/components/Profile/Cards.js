@@ -1,14 +1,12 @@
 import Card from "./Card";
 
-const Cards = (cards) => {
+const Cards = ({ cards }) => {
+  console.log(cards);
   return (
     <>
-     {
-        // cards.map(card => {
-        //     return <Card props={...card}/>
-        // })
-        
-     }
+      {cards.map((card) => {
+        return <Card card={card} />;
+      })}
     </>
   );
 };

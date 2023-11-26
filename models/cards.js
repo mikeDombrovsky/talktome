@@ -1,15 +1,17 @@
 import { db } from "../config/db.js";
 
 export const _addCard = (card) => {
-  const { user_id, message, is_public } = card;
+  const { user_id, message, first_name, phone, is_public } = card;
 
   return db("cards").insert(
     {
       user_id,
       message,
+      first_name,
+      phone,
       is_public,
     },
-    ["user_id", "card_id", "message", "is_public"]
+    ["user_id", "card_id", "message", "first_name", "phone", "is_public"]
   );
 };
 
@@ -32,21 +34,13 @@ export const _deleteCard = (card_id) => {
 };
 
 export const _getCardsByUserId = (user_id) => {
-  return db("cards")
-    .select("user_id", "card_id", "message", "is_public")
-    .where({ user_id });
+  return db("cards").select().where({ user_id });
 };
 
 export const _getCardsByIds = (ids) => {
-  return db("cards")
-    .select("user_id", "card_id", "message", "is_public")
-    .whereIn("card_id", ids);
+  return db("cards").select().whereIn("card_id", ids);
 };
 
 export const _getAllCards = (offset) => {
-  return db("cards")
-    .select()
-    .where("is_public", true)
-    .offset(offset)
-    .limit(25);
+  return db("cards").select().where("is_public", true).offset(offset).limit(25);
 };

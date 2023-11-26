@@ -16,6 +16,6 @@ export const _register = (user) => {
 
 export const _login = (email) => {
   return db("users")
-    .select("user_id", "email", "password",'phone')
+    .select("user_id", "first_name", "email", "password", "phone")
     .where({ email });
 };

@@ -18,8 +18,9 @@ function authenticate(req, res, next) {
       }
 
       //new access token generation
-      const user_id = user.user_id;
-      const first_name = user.first_name;
+      const { user_id, first_name } = user;
+      console.log(user);
+
       const newToken = jwt.sign({ user_id, first_name }, secret, {
         expiresIn: "60s",
       });
@@ -28,7 +29,8 @@ function authenticate(req, res, next) {
       res.cookie("token", newToken, { httpOnly: true, maxAge: 1000 * 60 });
     }
     //attach user obj to request
-    req.user = user;
+    const { user_id, first_name } = user;
+    req.user = { user_id, first_name };
     next();
   });
 }
