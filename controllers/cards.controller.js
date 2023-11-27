@@ -2,23 +2,25 @@ import {
   _addCard,
   _updateCard,
   _deleteCard,
-  _getCardsByUserId,
+  _getCardByUserId,
   _getCardsByIds,
   _getAllCards,
 } from "../models/cards.js";
 
 export const addCard = async (req, res) => {
   const { user_id, first_name } = req.user;
-  const { message, phone } = req.body;
+  const { message, phone, role} = req.body;
 
   try {
     const row = await _addCard({
       user_id,
       first_name,
       message,
-      phone
+      phone,
+      role,
+      is_public:false
     });
-    res.status(200).json({ msg: row[0] });
+    res.status(200).json({ ...row[0] });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "something went wrong" });
@@ -27,7 +29,7 @@ export const addCard = async (req, res) => {
 
 export const updateCard = async (req, res) => {
   const { user_id } = req.user;
-  const { card_id, message, is_public } = req.body;
+  const { card_id, message, is_public, role } = req.body;
 
   try {
     const row = await _getCardsByIds([card_id]);
@@ -44,6 +46,7 @@ export const updateCard = async (req, res) => {
       card_id,
       message,
       is_public,
+      role
     });
 
     res.status(200).json({ msg: row2[0] });
@@ -75,15 +78,16 @@ export const deleteCard = async (req, res) => {
   }
 };
 
-export const getCardsByUserId = async (req, res) => {
+export const getCardByUserId = async (req, res) => {
   const { user_id } = req.user;
-  
+
   try {
-    const cards = await _getCardsByUserId(user_id);
-    
+    //user may hold just one card. if row is empty card sets as undefined
+    const row = await _getCardByUserId(user_id);
+
     res.status(200).json({
       user: req.user,
-      cards,
+      card: row[0],
     });
   } catch (err) {
     console.log(err);
@@ -108,10 +112,10 @@ export const getCardsByIds = async (req, res) => {
 };
 
 export const getAllCards = async (req, res) => {
-  const { offset } = req.body;
+  const { offset, role } = req.body;
 
   try {
-    const row = await _getAllCards(offset);
+    const row = await _getAllCards(offset, role);
     const cards = row[0];
     res.status(200).json({
       cards,

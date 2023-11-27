@@ -3,9 +3,9 @@ import {
   addCard,
   updateCard,
   deleteCard,
-  getCardsByUserId,
+  getCardByUserId,
   getCardsByIds,
-  getAllCards
+  getAllCards,
 } from "../controllers/cards.controller.js";
 
 const cards_router = Router();
@@ -16,7 +16,7 @@ cards_router.put("/update", updateCard);
 
 cards_router.delete("/delete", deleteCard);
 
-cards_router.get("/byuserid", getCardsByUserId);
+cards_router.get("/byuserid", getCardByUserId);
 
 cards_router.post("/ids", getCardsByIds);
 

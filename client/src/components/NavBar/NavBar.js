@@ -69,7 +69,7 @@ const NavBar = () => {
             </>
           )}
         </ul>
-        {token ? (
+        {/* {token ? (
           <form class="form-inline my-2 my-lg-0">
             <input
               class="form-control mr-sm-2"
@@ -81,7 +81,7 @@ const NavBar = () => {
               Search
             </button>
           </form>
-        ) : null}
+        ) : null} */}
       </div>
     </nav>
   );

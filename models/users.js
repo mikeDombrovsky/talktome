@@ -19,3 +19,9 @@ export const _login = (email) => {
     .select("user_id", "first_name", "email", "password", "phone")
     .where({ email });
 };
+
+export const _getInfo = (user_id) => {
+  return db("users")
+  .select()
+  .where({user_id});
+}

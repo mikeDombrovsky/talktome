@@ -1,4 +1,4 @@
-import { _login, _register } from "../models/users.js";
+import { _getInfo, _login, _register } from "../models/users.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -85,18 +85,33 @@ export const refresh = (req, res) => {
     }
 
     //new access 1 hour token generation
-    const {user_id, first_name} = user;
-    
-    const accessToken = jwt.sign(
-      { user_id, first_name},
-      secret,
-      { expiresIn: "1h" }
-    );
+    const { user_id, first_name } = user;
+
+    const accessToken = jwt.sign({ user_id, first_name }, secret, {
+      expiresIn: "1h",
+    });
 
     // Set the new access token as an HTTP cookie
     res.cookie("token", accessToken, { httpOnly: true });
     res.status(200).json({ msg: "token refreshed", token: accessToken });
   });
+};
+
+export const getInfo = async (req, res) => {
+  const { user_id } = req.user;
+
+  try {
+    const row = await _getInfo(user_id);
+    if (row.length === 0) {
+      return res.status(500).json({ msg: "oops, user info not found" });
+    }
+    const { first_name, email, phone} = row[0];
+
+    res.status(200).json({ user_id, first_name, email, phone });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "oops, something went wrong" });
+  }
 };
 
 export const logout = (req, res) => {
