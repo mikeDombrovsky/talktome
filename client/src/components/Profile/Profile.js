@@ -1,4 +1,5 @@
 import LoadingScreen from "../LoadingScreen";
+import Card from "./Card";
 import Cards from "./Cards";
 import { useState, useMemo, useEffect } from "react";
 
@@ -92,8 +93,7 @@ const Profile = () => {
             <hr />
             {myCard ? (
               <>
-              Card
-
+              <Card card={myCard}/>
               </>
             ) : (
               <form onSubmit={(e) => addCard(e)}>

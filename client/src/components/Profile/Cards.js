@@ -1,7 +1,7 @@
 import Card from "./Card";
 
 const Cards = ({ cards }) => {
-  console.log(cards);
+  // console.log(cards);
   return (
     <>
       {cards.map((card) => {
