@@ -22,8 +22,16 @@ export const register = async (req, res) => {
     const token = jwt.sign({ user_id, first_name }, secret, {
       expiresIn: "1h",
     });
-    //set token to server cookie
+    //create new refresh token
+    const refreshToken = jwt.sign({ user_id, first_name }, secret, {
+      expiresIn: "7d",
+    });
+    //set tokens to server cookie
     res.cookie("token", token, { httpOnly: true, maxAge: 1000 * 60 });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
     res.status(201).json({ msg: "user registered", token });
   } catch (err) {
     console.log(err);
