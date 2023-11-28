@@ -162,12 +162,11 @@ const Profile = () => {
             {myCard ? (
               <>
                 <div className="row">
-                  <div className="col-6 col-md-9 col-lg-9"></div>
+                  <div className="col-auto cal-xs-6 col-sm-8 col-lg-10"></div>
                   <Card card={myCard} />
                 </div>
                 <div className="row">
-                  <div className="col"></div>
-                  <div className="col-6 text-end">
+                  <div className="col-12 text-end">
                     <>
                       {myCard.is_public ? (
                         <button
