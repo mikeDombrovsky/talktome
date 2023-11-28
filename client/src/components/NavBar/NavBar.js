@@ -5,7 +5,7 @@ import { useAuth } from "../../hooks/AuthProvider";
 const NavBar = () => {
   const { token, handleLogout } = useAuth();
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light px-2">
       <Link class="navbar-brand" to="/">
         <h4>
           <img src={logo} alt="logo" /> Talk To Me
