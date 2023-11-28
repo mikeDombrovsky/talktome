@@ -37,9 +37,9 @@ export const _updateCard = (card) => {
   );
 };
 
-export const _deleteCard = (card_id) => {
+export const _deleteCard = (user_id) => {
   return db("cards")
-    .where({ card_id })
+    .where({ user_id })
     .del(["user_id", "card_id", "message", "is_public", "role"]);
 };
 

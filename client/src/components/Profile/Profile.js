@@ -79,6 +79,43 @@ const Profile = () => {
     }
   };
 
+  const togglePublicity = async () => {
+    try {
+      const newCard = { ...myCard, is_public: !myCard.is_public };
+
+      const resp = await fetch("/api/cards/update", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify(newCard),
+      });
+      if (resp.ok) {
+        const card = await resp.json();
+        console.log("card updated", card);
+        setMyCard(card);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const removeCard = async () => {
+    try {
+      const resp = await fetch("/api/cards/delete", {
+        method: "DELETE",
+      });
+      if (resp.ok) {
+        const card = await resp.json();
+        console.log("card deleted", card);
+        setMyCard(null);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       {loading ? (
@@ -90,10 +127,50 @@ const Profile = () => {
             <p>
               email: <b>{email}</b> phone: <b>{phone}</b>
             </p>
+            <p>Role: {myCard && myCard.role ? myCard.role : "not chosen"}</p>
             <hr />
             {myCard ? (
               <>
-              <Card card={myCard}/>
+                <div className="row">
+                  <div className="col-6 col-md-9 col-lg-9"></div>
+                  <Card card={myCard} />
+                </div>
+                <div className="row">
+                  <div className="col"></div>
+                  <div className="col-6">
+                    <>
+                      {myCard.is_public ? (
+                        <button
+                          class="btn btn-secondary m-2"
+                          onClick={togglePublicity}
+                        >
+                          hide
+                        </button>
+                      ) : (
+                        <button
+                          class="btn btn-primary m-2"
+                          onClick={togglePublicity}
+                        >
+                          public
+                        </button>
+                      )}
+                    </>
+                    <button class="btn btn-danger my-2 ml-2" onClick={removeCard}>remove</button>
+                    <p class="d-inline-flex gap-1">
+                      <button
+                        class="btn btn-warning m-2"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseExample"
+                        aria-expanded="false"
+                        aria-controls="collapseExample"
+                      >
+                        change
+                      </button>
+                      <div class="collapse" id="collapseExample"></div>
+                    </p>
+                  </div>
+                </div>
               </>
             ) : (
               <form onSubmit={(e) => addCard(e)}>
@@ -105,6 +182,7 @@ const Profile = () => {
                     name="role"
                     id="talktome"
                     value="talktome"
+                    required
                   />
                   <label class="form-check-label" for="talktome">
                     I need to talk
@@ -136,6 +214,7 @@ const Profile = () => {
                 <button class=" btn btn-success">add new card</button>
               </form>
             )}
+
             <hr />
             <div>
               My favorite cards:

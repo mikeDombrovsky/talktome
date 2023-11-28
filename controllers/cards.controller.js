@@ -49,7 +49,7 @@ export const updateCard = async (req, res) => {
       role
     });
 
-    res.status(200).json({ msg: row2[0] });
+    res.status(200).json({ ...row2[0] });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "something went wrong" });
@@ -60,18 +60,9 @@ export const deleteCard = async (req, res) => {
   const { user_id } = req.user;
 
   try {
-    const row = await _getCardsByIds([card_id]);
-    if (row.length === 0) {
-      return res.status(404).json({ msg: "card not found" });
-    }
+    const row = await _deleteCard(user_id);
 
-    if (row[0].user_id !== user_id) {
-      return res.status(401).json({ msg: "unauthorized" });
-    }
-
-    const row2 = await _deleteCard(card_id);
-
-    res.status(200).json({ msg: row2[0] });
+    res.status(200).json({ ...row[0] });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "something went wrong" });
