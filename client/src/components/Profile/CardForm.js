@@ -1,7 +1,7 @@
 const CardForm = ({ message, handleSubmit, setMessage, btn_text }) => {
   return (
     <form onSubmit={(e) => handleSubmit(e)}>
-      <p>Type message below and add your own card</p>
+      <p>Choose role, type message below and push the button</p>
       <div class="form-check">
         <input
           class="form-check-input"
