@@ -3,7 +3,7 @@ const Card = ({ card }) => {
   return (
     <div className="col">
       <div className="card" id={card_id}>
-        <img src="./logo-32x32.png" className="card-img-top" alt="heart" />
+        <img src="./candle.png" className="card-img-top" alt="heart" />
         <div className="card-body">
           <h5 className="card-title">{first_name}</h5>
           <h6 className="card-subtitle mb-2 text-body-secondary">{phone}</h6>
