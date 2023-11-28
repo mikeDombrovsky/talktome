@@ -10,6 +10,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import "dotenv/config";
 import cards_router from "./routes/cards.route.js";
+import favorites_router from "./routes/favorites.route.js";
 
 const app = express();
 
@@ -18,13 +19,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(cookieParser());
 
-//routers
 //public route
 app.use("/api/auth", auth_router);
 
-//protected route
+//protected routes
 app.use("/api/cards", authMiddleware, cards_router);
 
+app.use("/api/favorites", authMiddleware, favorites_router);
 
 //routes for client
 // All other requests not handled before will return our React app

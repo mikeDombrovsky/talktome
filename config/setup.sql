@@ -8,32 +8,6 @@ CREATE TABLE users (
     phone VARCHAR UNIQUE
 );
 
-INSERT INTO users (
-    first_name,
-    email,
-    password,
-    phone
-)
-VALUES
-    (
-        'John',
-        'john.smith@example.com',
-        '12345',
-        '408-237-2345'
-    ),
-    (
-        'Jane',
-        'jane.smith@example.com',
-        '12345',
-        '408-237-2344'
-    ),
-    (
-        'Alex',
-        'alex.smith@example.com',
-        '12345',
-        '408-237-2343'
-    );
-
 CREATE TABLE cards (
     card_id uuid DEFAULT uuid_generate_v4 () PRIMARY KEY,
     user_id uuid NOT NULL UNIQUE REFERENCES users(user_id) ON DELETE CASCADE,
@@ -44,3 +18,9 @@ CREATE TABLE cards (
     role VARCHAR NOT NULL
 );
 
+
+
+CREATE TABLE favorites (
+    card_id uuid NOT NULL PRIMARY KEY REFERENCES cards(card_id) ON DELETE CASCADE,
+    user_id uuid NOT NULL REFERENCES users(user_id) ON DELETE CASCADE
+);
