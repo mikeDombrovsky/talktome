@@ -162,8 +162,10 @@ const Profile = () => {
             {myCard ? (
               <>
                 <div className="row">
-                  <div className="col-auto cal-xs-6 col-sm-8 col-lg-10"></div>
-                  <Card card={myCard} />
+                  <div className="col-auto cal-xs-6 col-sm-6 col-lg-10"></div>
+                  <div className="col">
+                    <Card card={myCard} />
+                  </div>
                 </div>
                 <div className="row">
                   <div className="col-12 text-end">

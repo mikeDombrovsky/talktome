@@ -104,13 +104,11 @@ export const getCardsByIds = async (req, res) => {
 
 export const getAllCards = async (req, res) => {
   const { offset, role } = req.body;
-
+  console.log(offset, role);
   try {
-    const row = await _getAllCards(offset, role);
-    const cards = row[0];
-    res.status(200).json({
-      cards,
-    });
+    const cards = await _getAllCards(offset, role);
+   
+    res.status(200).json(cards);
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "something went wrong" });

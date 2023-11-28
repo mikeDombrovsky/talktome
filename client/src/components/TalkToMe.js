@@ -1,57 +1,84 @@
 import { useState, useEffect } from "react";
+import Cards from "./Profile/Cards";
+import LoadingScreen from "../components/LoadingScreen";
 
 const TalkToMe = () => {
   const [offset, setOffset] = useState(0);
   const [cards, setCards] = useState([]);
+  const role = "talktome";
+  const [loading, setLoading] = useState(true);
 
   const next = () => {
-    if (offset < cards.length) {
-      setOffset(offset + 24);
+    if (offset < cards.length && cards.length > 18) {
+      setOffset(offset + 18);
     }
   };
 
   const prev = () => {
     if (offset > 0) {
-      setOffset(offset - 24);
+      setOffset(offset - 18);
     }
   };
 
-  useEffect(()=>{
-    const fetchCards = async () => {
+  const fetchCards = async () => {
+    try {
+      const resp = await fetch("/api/cards/all", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ offset, role }),
+      });
 
+      if (!resp.ok) {
+        return console.log("cannot fetch cards");
+      }
+
+      const cards = await resp.json();
+      setCards(cards);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setTimeout(() => setLoading(false), 500);
     }
+  };
+
+  useEffect(() => {
     fetchCards();
-  },[offset])
+  }, []);
+
+  useEffect(() => {
+    fetchCards();
+  }, [offset]);
 
   return (
     <>
-      <div className="container">
-        <form class="form-inline my-2 my-lg-0 ">
-          <input
-            class="form-control mr-sm-2 w-50"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-            Search
-          </button>
-        </form>
-        <hr />
-        <h1>Talk To Me cards</h1>
-        <hr />
-        <div className="text-center my-5">
-          <button class="btn btn-success m-2 m-sm-1" onClick={prev}>
-            prev
-          </button>
-          <span className="m-2 m-sm-1">
-            {offset} - {offset + 24}
-          </span>
-          <button class="btn btn-success m-2 m-sm-1" onClick={next}>
-            next
-          </button>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <div className="container">
+          <hr />
+          <h2>Talk To Me</h2>
+          <p>
+            Here you can shoose some people that need to cope with enxaity to
+            talk with. Choosen cards will be saved in your profile
+          </p>
+          <hr />
+          <Cards cards={cards} />
+          <hr />
+          <div className="text-center my-5">
+            <button class="btn btn-success m-2 m-sm-1" onClick={prev}>
+              prev
+            </button>
+            <span className="m-2 m-sm-1">
+              {offset} - {offset + 18}
+            </span>
+            <button class="btn btn-success m-2 m-sm-1" onClick={next}>
+              next
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
