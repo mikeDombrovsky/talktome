@@ -13,8 +13,8 @@ export const _addCard = (card) => {
       role,
     },
     [
-      "user_id",
       "card_id",
+      "user_id",
       "message",
       "first_name",
       "phone",
@@ -33,14 +33,30 @@ export const _updateCard = (card) => {
       is_public,
       role,
     },
-    ["user_id", "card_id", "message", "is_public", "role"]
+    [
+      "card_id",
+      "user_id",
+      "message",
+      "first_name",
+      "phone",
+      "is_public",
+      "role",
+    ]
   );
 };
 
 export const _deleteCard = (user_id) => {
   return db("cards")
     .where({ user_id })
-    .del(["user_id", "card_id", "message", "is_public", "role"]);
+    .del([
+      "card_id",
+      "user_id",
+      "message",
+      "first_name",
+      "phone",
+      "is_public",
+      "role",
+    ]);
 };
 
 export const _getCardByUserId = (user_id) => {

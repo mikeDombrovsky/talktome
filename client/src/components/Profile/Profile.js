@@ -1,5 +1,6 @@
 import LoadingScreen from "../LoadingScreen";
 import Card from "./Card";
+import CardForm from "./CardForm";
 import Cards from "./Cards";
 import { useState, useMemo, useEffect } from "react";
 
@@ -12,20 +13,20 @@ const Profile = () => {
     email: "",
     phone: "",
     message: "",
-    is_public: false,
   });
   const [loading, setLoading] = useState(true);
-  const { user_id, first_name, email, phone, message, is_public } = userInfo;
+  const { user_id, first_name, email, phone, message } = userInfo;
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        //fetch user info
         const resp_info = await fetch("/api/auth/info");
         if (!resp_info.ok) {
           return console.log("oops, cannot get your info");
         }
         const user_info = await resp_info.json();
-
+        //fetch user's card info
         const resp_card = await fetch("/api/cards/byuserid");
         if (!resp_card.ok) {
           return console.log("oops, cannot get your card");
@@ -37,16 +38,16 @@ const Profile = () => {
           setMyCard(card);
         }
 
-        console.log(user_info);
+        console.log(user_info, card);
         setUserInfo({
-          ...userInfo,
+          ...user_info,
           user_id: user_info.user_id,
           first_name: user_info.first_name,
           email: user_info.email,
           phone: user_info.phone,
         });
 
-        console.log(card, body);
+        console.log("mounted card", card);
       } catch (err) {
         console.log(err);
       } finally {
@@ -56,6 +57,10 @@ const Profile = () => {
 
     fetchUserData();
   }, []);
+
+  const setMessage = (message) => {
+    setUserInfo({ ...userInfo, message });
+  };
 
   const addCard = async (e) => {
     e.preventDefault();
@@ -116,13 +121,38 @@ const Profile = () => {
     }
   };
 
+  const updateCard = async (e) => {
+    e.preventDefault();
+    const role = e.target.role.value;
+    const message = e.target.message.value;
+    try {
+      const newCard = { ...myCard, role, message };
+
+      const resp = await fetch("/api/cards/update", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify(newCard),
+      });
+      if (resp.ok) {
+        const card = await resp.json();
+        console.log("card updated", card);
+        setMyCard(card);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       {loading ? (
         <LoadingScreen />
       ) : (
         <>
-          <div className="text-right container">
+          <div className="container text-end">
             <h1 className="my-5">Hello, {first_name}</h1>
             <p>
               email: <b>{email}</b> phone: <b>{phone}</b>
@@ -137,30 +167,33 @@ const Profile = () => {
                 </div>
                 <div className="row">
                   <div className="col"></div>
-                  <div className="col-6">
+                  <div className="col-6 text-end">
                     <>
                       {myCard.is_public ? (
                         <button
-                          class="btn btn-secondary m-2"
+                          class="btn btn-secondary ms-1 my-2"
                           onClick={togglePublicity}
                         >
-                          hide
+                          unpublish
                         </button>
                       ) : (
                         <button
-                          class="btn btn-primary m-2"
+                          class="btn btn-primary ms-1 my-2"
                           onClick={togglePublicity}
                         >
-                          public
+                          publish
                         </button>
                       )}
                     </>
-                    <button class="btn btn-danger m-2" onClick={removeCard}>
+                    <button
+                      class="btn btn-danger ms-1 my-1"
+                      onClick={removeCard}
+                    >
                       remove
                     </button>
-                    <p class="d-inline-block m-2">
+                    <p class="d-inline-block">
                       <button
-                        class="btn btn-warning m-2"
+                        class="btn btn-warning ms-1 my-2"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#collapseExample"
@@ -171,82 +204,28 @@ const Profile = () => {
                       </button>
                     </p>
                     <div class="collapse" id="collapseExample">
-                      form
-                    </div>
-                    
-                    <p class="d-inline-flex gap-1">
-                      <a
-                        class="btn btn-primary"
-                        data-bs-toggle="collapse"
-                        href="#collapseExample"
-                        role="button"
-                        aria-expanded="false"
-                        aria-controls="collapseExample"
-                      >
-                        Link with href
-                      </a>
-                      <button
-                        class="btn btn-primary"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseExample"
-                        aria-expanded="false"
-                        aria-controls="collapseExample"
-                      >
-                        Button with data-bs-target
-                      </button>
-                    </p>
-                    <div class="collapse" id="collapseExample">
-                      <div class="card card-body">
-                        Some placeholder content for the collapse component.
-                        This panel is hidden by default but revealed when the
-                        user activates the relevant trigger.
-                      </div>
+                      <CardForm
+                        message={userInfo.message}
+                        handleSubmit={updateCard}
+                        setMessage={setMessage}
+                        btn_text="update card"
+                      />
                     </div>
                   </div>
                 </div>
               </>
             ) : (
-              <form onSubmit={(e) => addCard(e)}>
-                <p>Type message below and add your own card</p>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="role"
-                    id="talktome"
-                    value="talktome"
-                    required
+              <div className="row">
+                <div className="col"></div>
+                <div className="col-6 text-end">
+                  <CardForm
+                    message={userInfo.message}
+                    handleSubmit={addCard}
+                    setMessage={setMessage}
+                    btn_text="add card"
                   />
-                  <label class="form-check-label" for="talktome">
-                    I need to talk
-                  </label>
                 </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="role"
-                    id="ihearyou"
-                    value="ihearyou"
-                  />
-                  <label class="form-check-label" for="ihearyou">
-                    I want to listen
-                  </label>
-                </div>
-                <input
-                  type="text"
-                  name="message"
-                  placeholder="type your message here"
-                  className="form-control my-3"
-                  required
-                  value={userInfo.message}
-                  onChange={(e) => {
-                    setUserInfo({ ...userInfo, message: e.target.value });
-                  }}
-                />
-                <button class=" btn btn-success">add new card</button>
-              </form>
+              </div>
             )}
 
             <hr />
