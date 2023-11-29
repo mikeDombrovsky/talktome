@@ -33,21 +33,34 @@ const Profile = () => {
         }
         const body = await resp_card.json();
         const { card } = body;
-        //if card undefined - user didn't add his card
-        if (card) {
-          setMyCard(card);
+
+        const resp_favorites = await fetch("/api/favorites/all");
+        if (!resp_favorites.ok) {
+          return console.log("oops, cannot get your favorites");
+        }
+        const favorites = await resp_favorites.json();
+
+    
+        if (!(user_info && favorites)) {
+          return console.log("oops, something went wrong");
         }
 
-        console.log(user_info, card);
+        console.log('user_info',user_info);
         setUserInfo({
           ...user_info,
           user_id: user_info.user_id,
           first_name: user_info.first_name,
           email: user_info.email,
           phone: user_info.phone,
-        });
+        });    
+        //if card undefined - user didn't add his card
+        if (card) {
+          setMyCard(card);
+        }
+        setMyFavoriteCards(favorites);
 
         console.log("mounted card", card);
+        console.log("mounted favorites", favorites);
       } catch (err) {
         console.log(err);
       } finally {
