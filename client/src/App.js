@@ -9,6 +9,7 @@ import Profile from "./components/Profile/Profile";
 import TalkToMe from "./components/TalkToMe";
 import IHearYou from "./components/IHearYou";
 import LoadingScreen from "./components/LoadingScreen";
+import Call from "./components/CallRoom/VideoCall/Call";
 
 function App() {
   const { token, handleLogout, handleLogin } = useAuth();
@@ -61,6 +62,10 @@ function App() {
               <Route
                 path="/ihearyou"
                 element={token ? <IHearYou /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/call"
+                element={token ? <Call /> : <Navigate to="/login" />}
               />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>

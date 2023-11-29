@@ -9,6 +9,9 @@ export const addFavorite = async (req, res) => {
   const { card_id } = req.params;
   try {
     const row = await _addFavorite(card_id, user_id);
+    if(!row){
+      res.status(500).json({msg:'cannot add favorite, probably limit of 12'})
+    }
     return res.status(200).json(row);
   } catch (err) {
     console.log(err);

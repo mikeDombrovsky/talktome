@@ -103,10 +103,11 @@ export const getCardsByIds = async (req, res) => {
 };
 
 export const getAllCards = async (req, res) => {
+   const { user_id } = req.user;
   const { offset, role } = req.body;
   
   try {
-    const cards = await _getAllCards(offset, role);
+    const cards = await _getAllCards(offset, role, user_id);
    
     res.status(200).json(cards);
   } catch (err) {

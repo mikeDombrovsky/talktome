@@ -39,6 +39,11 @@ const NavBar = () => {
                 </Link>
               </li>
               <li class="nav-item">
+                <Link class="nav-link" to="/call">
+                  Call Room
+                </Link>
+              </li>
+              <li class="nav-item">
                 <Link class="nav-link" to="/talktome">
                   Talk to me
                 </Link>
@@ -48,7 +53,7 @@ const NavBar = () => {
                   I hear you
                 </Link>
               </li>
-              <li class="nav-item">
+              <li class="nav-item m-2">
                 <button class=" btn btn-success" onClick={handleLogout}>
                   log out
                 </button>
@@ -69,19 +74,6 @@ const NavBar = () => {
             </>
           )}
         </ul>
-        {/* {token ? (
-          <form class="form-inline my-2 my-lg-0">
-            <input
-              class="form-control mr-sm-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-              Search
-            </button>
-          </form>
-        ) : null} */}
       </div>
     </nav>
   );

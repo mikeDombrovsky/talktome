@@ -23,3 +23,9 @@ CREATE TABLE favorites (
     user_id uuid  NOT NULL REFERENCES users(user_id) ON DELETE CASCADE
 );
 
+-- INSERT INTO favorites (user_id, card_id) 
+-- VALUES ('fa262752-6bcd-4621-b42e-02ca8399d6e4', '82f2ac4d-2645-4df6-b509-dd227504e5f3')
+-- WHERE
+-- (SELECT COUNT(1) from favorites WHERE user_id = 'fa262752-6bcd-4621-b42e-02ca8399d6e4') < 13
+
+-- doesn't work

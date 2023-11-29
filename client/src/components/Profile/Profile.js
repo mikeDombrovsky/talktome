@@ -185,7 +185,6 @@ const fetchUserData = async () => {
             <p>
               email: <b>{email}</b> phone: <b>{phone}</b>
             </p>
-            <p>Role: {myCard && myCard.role ? myCard.role : "not chosen"}</p>
             <hr />
             {myCard ? (
               <>
