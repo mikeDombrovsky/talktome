@@ -3,6 +3,7 @@ import Card from "./Card";
 import CardForm from "./CardForm";
 import Cards from "./Cards";
 import { useState, useMemo, useEffect } from "react";
+import FavoriteCards from "./FavoriteCards";
 
 const Profile = () => {
   const [myFavoriteCards, setMyFavoriteCards] = useState([]);
@@ -17,8 +18,29 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const { user_id, first_name, email, phone, message } = userInfo;
 
-  useEffect(() => {
-    const fetchUserData = async () => {
+  const fetchFavorites = async () => {
+    if(!loading){
+      setLoading(true);
+    }
+    try {
+      const resp_favorites = await fetch(`/api/favorites/all`);
+      if (!resp_favorites.ok) {
+        return console.log("oops, cannot get your favorites");
+      }
+      const favorites = await resp_favorites.json();
+      if (!favorites) {
+        return console.log("oops, something went wrong");
+      }
+      setMyFavoriteCards(favorites);
+      console.log("mounted favorites", favorites);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setTimeout(() => setLoading(false), 500);
+    }
+    
+  };
+const fetchUserData = async () => {
       try {
         //fetch user info
         const resp_info = await fetch("/api/auth/info");
@@ -34,33 +56,24 @@ const Profile = () => {
         const body = await resp_card.json();
         const { card } = body;
 
-        const resp_favorites = await fetch("/api/favorites/all");
-        if (!resp_favorites.ok) {
-          return console.log("oops, cannot get your favorites");
-        }
-        const favorites = await resp_favorites.json();
-
-    
-        if (!(user_info && favorites)) {
+        if (!(user_info)) {
           return console.log("oops, something went wrong");
         }
 
-        console.log('user_info',user_info);
+        console.log("user_info", user_info);
         setUserInfo({
           ...user_info,
           user_id: user_info.user_id,
           first_name: user_info.first_name,
           email: user_info.email,
           phone: user_info.phone,
-        });    
+        });
         //if card undefined - user didn't add his card
         if (card) {
           setMyCard(card);
         }
-        setMyFavoriteCards(favorites);
-
         console.log("mounted card", card);
-        console.log("mounted favorites", favorites);
+      
       } catch (err) {
         console.log(err);
       } finally {
@@ -68,7 +81,9 @@ const Profile = () => {
       }
     };
 
+  useEffect(() => {
     fetchUserData();
+    fetchFavorites();
   }, []);
 
   const setMessage = (message) => {
@@ -245,7 +260,10 @@ const Profile = () => {
             <hr />
             <div>
               My favorite cards:
-              <Cards cards={myFavoriteCards} />
+              <FavoriteCards
+                cards={myFavoriteCards}
+                fetchFavorites={fetchFavorites}
+              />
             </div>
           </div>
         </>

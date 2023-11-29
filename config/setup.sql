@@ -18,9 +18,8 @@ CREATE TABLE cards (
     role VARCHAR NOT NULL
 );
 
-
-
 CREATE TABLE favorites (
-    card_id uuid NOT NULL PRIMARY KEY REFERENCES cards(card_id) ON DELETE CASCADE,
-    user_id uuid NOT NULL REFERENCES users(user_id) ON DELETE CASCADE
+    card_id uuid NOT NULL REFERENCES cards(card_id) ON DELETE CASCADE,
+    user_id uuid  NOT NULL REFERENCES users(user_id) ON DELETE CASCADE
 );
+
