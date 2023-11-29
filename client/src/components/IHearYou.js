@@ -7,16 +7,17 @@ const IHearYou = () => {
   const [cards, setCards] = useState([]);
   const role = "ihearyou";
   const [loading, setLoading] = useState(true);
+  const cardsOnPage = 12;
 
   const next = () => {
-    if (offset < cards.length && cards.length > 18) {
-      setOffset(offset + 18);
+    if (offset < cards.length && cards.length > cardsOnPage) {
+      setOffset(offset + cardsOnPage);
     }
   };
 
   const prev = () => {
     if (offset > 0) {
-      setOffset(offset - 18);
+      setOffset(offset - cardsOnPage);
     }
   };
 
@@ -72,7 +73,7 @@ const IHearYou = () => {
               prev
             </button>
             <span className="m-2 m-sm-1">
-              {offset} - {offset + 18}
+              {offset} - {offset + cardsOnPage}
             </span>
             <button class="btn btn-success m-2 m-sm-1" onClick={next}>
               next

@@ -6,17 +6,18 @@ const TalkToMe = () => {
   const [offset, setOffset] = useState(0);
   const [cards, setCards] = useState([]);
   const role = "talktome";
+  const cardsOnPage = 12;
   const [loading, setLoading] = useState(true);
 
   const next = () => {
-    if (offset < cards.length && cards.length > 18) {
-      setOffset(offset + 18);
+    if (offset < cards.length && cards.length > cardsOnPage) {
+      setOffset(offset + cardsOnPage);
     }
   };
 
   const prev = () => {
     if (offset > 0) {
-      setOffset(offset - 18);
+      setOffset(offset - cardsOnPage);
     }
   };
 
@@ -71,7 +72,7 @@ const TalkToMe = () => {
               prev
             </button>
             <span className="m-2 m-sm-1">
-              {offset} - {offset + 18}
+              {offset} - {offset + cardsOnPage}
             </span>
             <button class="btn btn-success m-2 m-sm-1" onClick={next}>
               next

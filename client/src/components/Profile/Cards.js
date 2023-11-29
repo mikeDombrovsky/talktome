@@ -3,7 +3,7 @@ import Card from "./Card";
 const Cards = ({ cards }) => {
   const addToFavorites = async (card_id) => {
     try {
-      const resp = fetch(`/api/favorites/add/${card_id}`, {
+      const resp = await fetch(`/api/favorites/add/${card_id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -11,6 +11,7 @@ const Cards = ({ cards }) => {
       });
       if (!resp.ok) {
         console.log(resp.ok);
+        console.log(resp);
         return console.log("oops, something went wrong");
       }
       const favorite = await resp.json();

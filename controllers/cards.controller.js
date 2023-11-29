@@ -104,7 +104,7 @@ export const getCardsByIds = async (req, res) => {
 
 export const getAllCards = async (req, res) => {
   const { offset, role } = req.body;
-  console.log(offset, role);
+  
   try {
     const cards = await _getAllCards(offset, role);
    

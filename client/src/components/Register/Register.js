@@ -115,7 +115,8 @@ const Register = () => {
             <input
               type="text"
               name="phone"
-              placeholder="099-999-99-99"
+              placeholder="+9726543210"
+              pattern="^\+[1-9]\d{1,14}$"
               value={phone}
               className="form-control my-3"
               required
