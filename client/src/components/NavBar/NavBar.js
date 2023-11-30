@@ -40,7 +40,7 @@ const NavBar = () => {
               </li>
               <li class="nav-item">
                 <Link class="nav-link" to="/call/">
-                  <b>Video_Room_Test</b>
+                  Video room
                 </Link>
               </li>
               <li class="nav-item">

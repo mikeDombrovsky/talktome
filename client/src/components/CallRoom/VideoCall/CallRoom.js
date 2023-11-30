@@ -1,6 +1,7 @@
 import AgoraRTC from "agora-rtc-sdk-ng";
 import { useEffect, useState } from "react";
 import { VideoPlayer } from "./VideoPlayer";
+import LoadingScreen from "../../LoadingScreen";
 
 const APP_ID = "04f7d4f4224544adaa8d63366f7071dd";
 const TOKEN =
@@ -17,15 +18,15 @@ const client = AgoraRTC.createClient({
 const CallRoom = () => {
   const [users, setUsers] = useState([]);
   const [localTracks, setLocalTracks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleUserJoined = async (user, mediaType) => {
     await client.subscribe(user, mediaType);
     if (mediaType === "video") {
+      if (users.length == 2) {
+        console.log(users);
+      }
       setUsers((previousUsers) => {
-        if (previousUsers.length == 2) {
-          handleUserLeft(user, mediaType);
-          return previousUsers;
-        }
         return [...previousUsers, user];
       });
     }
@@ -50,6 +51,7 @@ const CallRoom = () => {
 
   useEffect(() => {
     client.on("user-published", handleUserJoined);
+    client.on("user-unpublished", handleUserLeft);
     client.on("user-left", handleUserLeft);
     //null below for uid - to generate
     let tracks;
@@ -60,7 +62,6 @@ const CallRoom = () => {
 
       setLocalTracks(tracks);
 
-      console.log(uid, videoTrack);
       setUsers((previousUsers) => [
         ...previousUsers,
         {
@@ -72,7 +73,7 @@ const CallRoom = () => {
       client.publish(tracks);
     };
     setUpTracks();
-
+    setLoading(false);
     return async () => {
       for (let localTrack of localTracks) {
         localTrack.stop();
@@ -87,19 +88,27 @@ const CallRoom = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}>
-        {users.map((user) => {
-          return <VideoPlayer key={user.uid} user={user} />;
-        })}
-      </div>
-    </div>
+    <>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+          >
+            {users.map((user) => {
+              return <VideoPlayer key={user.uid} user={user} />;
+            })}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

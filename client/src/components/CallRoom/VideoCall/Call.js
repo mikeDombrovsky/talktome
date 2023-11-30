@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CallRoom from "./CallRoom";
 import React from "react";
 
 const Call = () => {
   const [joined, setJoined] = useState(false);
+  
   return (
     <>
       <div
@@ -16,7 +17,10 @@ const Call = () => {
             <CallRoom />
             <button
               className="btn btn-success m-3"
-              onClick={() => setJoined(false)}
+              onClick={() => {
+                setJoined(false);
+                window.location.replace("/call/");
+              }}
             >
               left Room
             </button>
