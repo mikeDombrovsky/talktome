@@ -39,8 +39,8 @@ const NavBar = () => {
                 </Link>
               </li>
               <li class="nav-item">
-                <Link class="nav-link" to="/call">
-                  Call Room
+                <Link class="nav-link" to="/call/">
+                  <b>Video_Room_Test</b>
                 </Link>
               </li>
               <li class="nav-item">

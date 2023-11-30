@@ -6,12 +6,28 @@ const Call = () => {
   const [joined, setJoined] = useState(false);
   return (
     <>
-      <div className="text-center">
-        <h1>WDJ Virtual Call</h1>
+      <div
+        className="text-center d-flex flex-column justify-content-center align-items-center"
+        style={{ height: "80vh" }}
+      >
+        <h1>Virtual Call</h1>
         {joined ? (
-         <CallRoom />
+          <>
+            <CallRoom />
+            <button
+              className="btn btn-success m-3"
+              onClick={() => setJoined(false)}
+            >
+              left Room
+            </button>
+          </>
         ) : (
-           <button onClick={() => setJoined(true)}>Join Room</button>
+          <button
+            className="btn btn-success m-3"
+            onClick={() => setJoined(true)}
+          >
+            Join Room
+          </button>
         )}
       </div>
     </>
