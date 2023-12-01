@@ -5,7 +5,7 @@ import LoadingScreen from "../../LoadingScreen";
 
 const APP_ID = "04f7d4f4224544adaa8d63366f7071dd";
 const TOKEN =
-  "007eJxTYPj3PmW51/dTV8x+6FjpGuk6aFYZv+Ffb/39ZnPNTK1dMyYrMBiYpJmnmKSZGBmZmJqYJKYkJlqkmBkbm5mlmRuYG6akXDbLSG0IZGQo4DrNysgAgSA+M0N5ShYDAwBlWB9K";
+  "007eJxTYGhbdLdyi9eBh4HntplOuRvury6lv4GlIb9N70VteVxN/HQFBgOTNPMUkzQTIyMTUxOTxJTERIsUM2NjM7M0cwNzw5SUlTsyUxsCGRkEv35lYmSAQBCfmaE8JYuBAQBL1x+e";
 const CHANNEL = "wdj";
 
 console.log(process.env);
