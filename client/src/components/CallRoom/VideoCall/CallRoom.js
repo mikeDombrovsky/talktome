@@ -101,12 +101,11 @@ const CallRoom = ({ setJoined }) => {
             justifyContent: "center",
             alignItems: "center",
             height: "100%",
-            width: "100%",
+            width:'100%'
           }}
         >
           <div
-            className="row align-items-center"
-            style={{ height: "100%", width: "100%" }}
+            className="row align-items-center h-100 w-100"
           >
             {users.map((user) => {
               return <VideoPlayer key={user.uid} user={user} />;

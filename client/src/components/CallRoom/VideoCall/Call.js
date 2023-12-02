@@ -9,7 +9,7 @@ const Call = () => {
     <>
       <div
         className="text-center d-flex flex-column justify-content-center align-items-center"
-        style={{ height: "80vh" }}
+        style={{ height: "80vh", color:'lightgray'}}
       >
         <h1>Virtual Call</h1>
         {joined ? (
