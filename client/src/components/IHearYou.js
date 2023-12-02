@@ -62,7 +62,7 @@ const IHearYou = () => {
           <h2>I hear you cards</h2>
           <hr />
           <p>
-            Here you can shoose some people that whant to talk with you to help.
+            Here you can shoose some people that want to talk with you to help.
             Choosen cards will be saved in your profile
           </p>
           <hr />

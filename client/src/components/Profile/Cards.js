@@ -1,7 +1,7 @@
 import Card from "./Card";
 
 const Cards = ({ cards }) => {
-  const addToFavorites = async (card_id) => {
+  const addToFavorites = async (e, card_id) => {
     try {
       const resp = await fetch(`/api/favorites/add/${card_id}`, {
         method: "POST",
@@ -16,6 +16,8 @@ const Cards = ({ cards }) => {
       }
       const favorite = await resp.json();
       console.log(favorite);
+      console.log("parent = ", e.target.parentElement);
+      e.target.parentElement.remove();
     } catch (err) {
       console.log(err);
     }
@@ -28,7 +30,7 @@ const Cards = ({ cards }) => {
           <Card card={card} />
           <button
             className="btn btn-success my-1"
-            onClick={() => addToFavorites(card.card_id)}
+            onClick={(e) => addToFavorites(e, card.card_id)}
           >
             Choose
           </button>
