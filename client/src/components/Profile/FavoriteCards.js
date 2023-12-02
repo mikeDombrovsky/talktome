@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import Card from "./Card";
 
-const FavoriteCards = ({ cards, fetchFavorites }) => {
-  const deleteFavorite = async (card_id) => {
+const FavoriteCards = ({ cards }) => {
+  const deleteFavorite = async (e, card_id) => {
     try {
       const resp = await fetch(`/api/favorites/${card_id}`, {
         method: "DELETE",
@@ -17,7 +17,9 @@ const FavoriteCards = ({ cards, fetchFavorites }) => {
       }
       const favorite = await resp.json();
       console.log("deleted favorite:", favorite);
-      fetchFavorites();
+      console.log("parent = ", e.target.parentElement);
+      e.target.parentElement.remove();
+      // fetchFavorites();
     } catch (err) {
       console.log(err);
     }
@@ -30,7 +32,7 @@ const FavoriteCards = ({ cards, fetchFavorites }) => {
           <Card card={card} />
           <button
             className="btn btn-danger my-1"
-            onClick={() => deleteFavorite(card.card_id)}
+            onClick={(e) => deleteFavorite(e, card.card_id)}
           >
             Remove
           </button>

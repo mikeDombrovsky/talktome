@@ -261,7 +261,6 @@ const fetchUserData = async () => {
               My favorite cards:
               <FavoriteCards
                 cards={myFavoriteCards}
-                fetchFavorites={fetchFavorites}
               />
             </div>
           </div>

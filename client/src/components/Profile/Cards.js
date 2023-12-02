@@ -16,7 +16,7 @@ const Cards = ({ cards }) => {
       }
       const favorite = await resp.json();
       console.log(favorite);
-      console.log("parent = ", e.target.parentElement);
+      
       e.target.parentElement.remove();
     } catch (err) {
       console.log(err);
