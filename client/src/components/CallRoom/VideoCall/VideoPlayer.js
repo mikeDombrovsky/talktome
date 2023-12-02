@@ -11,11 +11,10 @@ export const VideoPlayer = ({ user }) => {
     }
   }, [user]);
   return (
-    <div className="card m-1 h-100">
+    <div className="col card m-1 h-100">
       <div
         className="card-img-top w-100 h-100"
         ref={ref}
-        // style={{ width: "50vw", height: "100vh" }}
       ></div>
       <div className="card-body">
         <h5 className="card-title"> Uid:{user.uid}</h5>

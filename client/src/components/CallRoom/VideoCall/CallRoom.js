@@ -97,15 +97,16 @@ const CallRoom = ({ setJoined }) => {
         <div
           style={{
             display: "flex",
-            flexDirection:'column',
+            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            height:'100%',
-            width:'100%'
+            height: "100%",
+            width: "100%",
           }}
         >
           <div
-            style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", height:'100%', width:'100%' }}
+            className="row align-items-center"
+            style={{ height: "100%", width: "100%" }}
           >
             {users.map((user) => {
               return <VideoPlayer key={user.uid} user={user} />;
@@ -115,6 +116,7 @@ const CallRoom = ({ setJoined }) => {
             className="btn btn-success m-3"
             onClick={(e) => {
               setJoined(false);
+              e.target.parentNode.remove()
 
               window.location.replace("/call/");
             }}
