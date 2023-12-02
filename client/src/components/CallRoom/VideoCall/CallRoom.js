@@ -1,11 +1,12 @@
 import AgoraRTC from "agora-rtc-sdk-ng";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { VideoPlayer } from "./VideoPlayer";
 import LoadingScreen from "../../LoadingScreen";
 
 const APP_ID = "04f7d4f4224544adaa8d63366f7071dd";
 const TOKEN =
-  "007eJxTYGhbdLdyi9eBh4HntplOuRvury6lv4GlIb9N70VteVxN/HQFBgOTNPMUkzQTIyMTUxOTxJTERIsUM2NjM7M0cwNzw5SUlTsyUxsCGRkEv35lYmSAQBCfmaE8JYuBAQBL1x+e";
+  "007eJxTYJj/N2zejgvcAUW6kon7JHcYRJfaWkz757NyAhcnw8WE0GwFBgOTNPMUkzQTIyMTUxOTxJTERIsUM2NjM7M0cwNzw5QUW9Hs1IZARoZnLzqYGRkgEMRnZihPyWJgAACPTBzp";
+//it must be shared betwen interlocuters
 const CHANNEL = "wdj";
 
 console.log(process.env);
@@ -15,10 +16,11 @@ const client = AgoraRTC.createClient({
   codec: "vp8",
 });
 
-const CallRoom = () => {
+const CallRoom = ({ setJoined }) => {
   const [users, setUsers] = useState([]);
   const [localTracks, setLocalTracks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const myCard = useRef();
 
   const handleUserJoined = async (user, mediaType) => {
     await client.subscribe(user, mediaType);
@@ -95,17 +97,30 @@ const CallRoom = () => {
         <div
           style={{
             display: "flex",
+            flexDirection:'column',
             justifyContent: "center",
             alignItems: "center",
+            height:'100%',
+            width:'100%'
           }}
         >
           <div
-            style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}
+            style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", height:'100%', width:'100%' }}
           >
             {users.map((user) => {
               return <VideoPlayer key={user.uid} user={user} />;
             })}
           </div>
+          <button
+            className="btn btn-success m-3"
+            onClick={(e) => {
+              setJoined(false);
+
+              window.location.replace("/call/");
+            }}
+          >
+            left Room
+          </button>
         </div>
       )}
     </>

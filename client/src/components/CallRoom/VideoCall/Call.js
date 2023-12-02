@@ -14,16 +14,8 @@ const Call = () => {
         <h1>Virtual Call</h1>
         {joined ? (
           <>
-            <CallRoom />
-            <button
-              className="btn btn-success m-3"
-              onClick={() => {
-                setJoined(false);
-                window.location.replace("/call/");
-              }}
-            >
-              left Room
-            </button>
+            <CallRoom setJoined={setJoined} />
+          
           </>
         ) : (
           <button
