@@ -19,7 +19,7 @@ const Profile = () => {
   const { user_id, first_name, email, phone, message } = userInfo;
 
   const fetchFavorites = async () => {
-    if(!loading){
+    if (!loading) {
       setLoading(true);
     }
     try {
@@ -38,48 +38,46 @@ const Profile = () => {
     } finally {
       setTimeout(() => setLoading(false), 500);
     }
-    
   };
-const fetchUserData = async () => {
-      try {
-        //fetch user info
-        const resp_info = await fetch("/api/auth/info");
-        if (!resp_info.ok) {
-          return console.log("oops, cannot get your info");
-        }
-        const user_info = await resp_info.json();
-        //fetch user's card info
-        const resp_card = await fetch("/api/cards/byuserid");
-        if (!resp_card.ok) {
-          return console.log("oops, cannot get your card");
-        }
-        const body = await resp_card.json();
-        const { card } = body;
-
-        if (!(user_info)) {
-          return console.log("oops, something went wrong");
-        }
-
-        console.log("user_info", user_info);
-        setUserInfo({
-          ...user_info,
-          user_id: user_info.user_id,
-          first_name: user_info.first_name,
-          email: user_info.email,
-          phone: user_info.phone,
-        });
-        //if card undefined - user didn't add his card
-        if (card) {
-          setMyCard(card);
-        }
-        console.log("mounted card", card);
-      
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setTimeout(() => setLoading(false), 500);
+  const fetchUserData = async () => {
+    try {
+      //fetch user info
+      const resp_info = await fetch("/api/auth/info");
+      if (!resp_info.ok) {
+        return console.log("oops, cannot get your info");
       }
-    };
+      const user_info = await resp_info.json();
+      //fetch user's card info
+      const resp_card = await fetch("/api/cards/byuserid");
+      if (!resp_card.ok) {
+        return console.log("oops, cannot get your card");
+      }
+      const body = await resp_card.json();
+      const { card } = body;
+
+      if (!user_info) {
+        return console.log("oops, something went wrong");
+      }
+
+      console.log("user_info", user_info);
+      setUserInfo({
+        ...user_info,
+        user_id: user_info.user_id,
+        first_name: user_info.first_name,
+        email: user_info.email,
+        phone: user_info.phone,
+      });
+      //if card undefined - user didn't add his card
+      if (card) {
+        setMyCard(card);
+      }
+      console.log("mounted card", card);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setTimeout(() => setLoading(false), 500);
+    }
+  };
 
   useEffect(() => {
     fetchUserData();
@@ -180,7 +178,7 @@ const fetchUserData = async () => {
         <LoadingScreen />
       ) : (
         <>
-          <div className="container text-end">
+          <div className="container">
             <h1 className="my-5">Hello, {first_name}</h1>
             <p>
               email: <b>{email}</b> phone: <b>{phone}</b>
@@ -189,13 +187,13 @@ const fetchUserData = async () => {
             {myCard ? (
               <>
                 <div className="row">
-                  <div className="col-auto cal-xs-6 col-sm-6 col-lg-10"></div>
                   <div className="col">
                     <Card card={myCard} />
                   </div>
+                  <div className="col-auto cal-xs-6 col-sm-6 col-lg-8"></div>
                 </div>
                 <div className="row">
-                  <div className="col-12 text-end">
+                  <div className="col-12">
                     <>
                       {myCard.is_public ? (
                         <button
@@ -231,7 +229,7 @@ const fetchUserData = async () => {
                         change
                       </button>
                     </p>
-                    <div class="collapse" id="collapseExample">
+                    <div class="collapse" id="collapseExample" className="w-50">
                       <CardForm
                         message={userInfo.message}
                         handleSubmit={updateCard}
@@ -259,9 +257,7 @@ const fetchUserData = async () => {
             <hr />
             <div>
               My favorite cards:
-              <FavoriteCards
-                cards={myFavoriteCards}
-              />
+              <FavoriteCards cards={myFavoriteCards} />
             </div>
           </div>
         </>

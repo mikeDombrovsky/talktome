@@ -107,9 +107,9 @@ export const getAllCards = async (req, res) => {
   const { offset, role } = req.body;
   
   try {
-    const cards = await _getAllCards(offset, role, user_id);
+    const {cards, size} = await _getAllCards(offset, role, user_id);
    
-    res.status(200).json(cards);
+    res.status(200).json({cards, size});
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "something went wrong" });

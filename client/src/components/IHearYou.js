@@ -10,14 +10,18 @@ const IHearYou = () => {
   const cardsOnPage = 12;
 
   const next = () => {
+    console.log(offset, cards.length);
     if (offset < cards.length && cards.length > cardsOnPage) {
       setOffset(offset + cardsOnPage);
+      fetchCards();
     }
   };
 
   const prev = () => {
+    console.log(offset, cards.length);
     if (offset > 0) {
       setOffset(offset - cardsOnPage);
+      fetchCards();
     }
   };
 
@@ -47,10 +51,6 @@ const IHearYou = () => {
   useEffect(() => {
     fetchCards();
   }, []);
-
-  useEffect(() => {
-    fetchCards();
-  }, [offset]);
 
   return (
     <>

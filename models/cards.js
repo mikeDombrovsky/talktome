@@ -67,25 +67,38 @@ export const _getCardsByIds = (ids) => {
   return db("cards").select().whereIn("card_id", ids);
 };
 
-export const _getAllCards = (offset, role, user_id) => {
-  return (
-    db("cards")
-      .select(
-        "cards.card_id",
-        "cards.user_id",
-        "cards.message",
-        "cards.first_name",
-        "cards.phone",
-        "cards.is_public",
-        "cards.role"
-      )
-      .whereRaw(
-        "cards.card_id NOT IN (SELECT favorites.card_id FROM favorites WHERE favorites.user_id = ?)",
-        [user_id]
-      )
-      .andWhere("cards.is_public", true)
-      .andWhere("cards.role", role)
-      .offset(offset)
-      .limit(25)
-  );
+export const _getAllCards = async (offset, role, user_id) => {
+  const row = await db("cards")
+    .select()
+    .count("user_id")
+    .whereRaw(
+      "cards.card_id NOT IN (SELECT favorites.card_id FROM favorites WHERE favorites.user_id = ?)",
+      [user_id]
+    )
+    .andWhere("cards.is_public", true)
+    .andWhere("cards.role", role);
+
+  const size  = row[0].count;
+  console.log(size, row);
+
+  const cards = await db("cards")
+    .select(
+      "cards.card_id",
+      "cards.user_id",
+      "cards.message",
+      "cards.first_name",
+      "cards.phone",
+      "cards.is_public",
+      "cards.role"
+    )
+    .whereRaw(
+      "cards.card_id NOT IN (SELECT favorites.card_id FROM favorites WHERE favorites.user_id = ?)",
+      [user_id]
+    )
+    .andWhere("cards.is_public", true)
+    .andWhere("cards.role", role)
+    .offset(offset)
+    .limit(12);
+
+  return { size, cards };
 };

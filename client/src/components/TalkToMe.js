@@ -3,25 +3,31 @@ import Cards from "./Profile/Cards";
 import LoadingScreen from "../components/LoadingScreen";
 
 const TalkToMe = () => {
+  const [loading, setLoading] = useState(true);
   const [offset, setOffset] = useState(0);
   const [cards, setCards] = useState([]);
+  const [size, setSize] = useState(0);
   const role = "talktome";
   const cardsOnPage = 12;
-  const [loading, setLoading] = useState(true);
 
   const next = () => {
-    if (offset < cards.length && cards.length > cardsOnPage) {
+    console.log(offset, cards.length, size);
+    if (offset < size && size > cardsOnPage) {
       setOffset(offset + cardsOnPage);
+      fetchCards();
     }
   };
 
   const prev = () => {
-    if (offset > 0) {
+    console.log(offset, cards.length);
+    if (offset >= size) {
       setOffset(offset - cardsOnPage);
+      fetchCards();
     }
   };
 
   const fetchCards = async () => {
+    setLoading(true);
     try {
       const resp = await fetch("/api/cards/all", {
         method: "POST",
@@ -35,8 +41,9 @@ const TalkToMe = () => {
         return console.log("cannot fetch cards");
       }
 
-      const cards = await resp.json();
+      const {cards, size} = await resp.json();
       setCards(cards);
+      setSize(size)
     } catch (err) {
       console.log(err);
     } finally {
@@ -45,12 +52,9 @@ const TalkToMe = () => {
   };
 
   useEffect(() => {
+    console.log(offset, cards.length, size);
     fetchCards();
   }, []);
-
-  useEffect(() => {
-    fetchCards();
-  }, [offset]);
 
   return (
     <>
