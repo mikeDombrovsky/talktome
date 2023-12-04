@@ -11,23 +11,21 @@ const TalkToMe = () => {
   const cardsOnPage = 12;
 
   const next = () => {
-    console.log(offset, cards.length, size);
-    if (offset < size && size > cardsOnPage) {
+    if (offset < size && cards.length === cardsOnPage) {
       setOffset(offset + cardsOnPage);
-      fetchCards();
     }
   };
 
   const prev = () => {
-    console.log(offset, cards.length);
-    if (offset >= size) {
+    if (offset >= cards.length) {
       setOffset(offset - cardsOnPage);
-      fetchCards();
     }
   };
 
   const fetchCards = async () => {
-    setLoading(true);
+    if (!loading) {
+      setLoading(true);
+    }
     try {
       const resp = await fetch("/api/cards/all", {
         method: "POST",
@@ -41,9 +39,9 @@ const TalkToMe = () => {
         return console.log("cannot fetch cards");
       }
 
-      const {cards, size} = await resp.json();
+      const { cards, size } = await resp.json();
       setCards(cards);
-      setSize(size)
+      setSize(size);
     } catch (err) {
       console.log(err);
     } finally {
@@ -52,39 +50,32 @@ const TalkToMe = () => {
   };
 
   useEffect(() => {
-    console.log(offset, cards.length, size);
     fetchCards();
-  }, []);
+  }, [offset]);
 
   return (
-    <>
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-        <div className="container">
-          <hr />
-          <h2>Talk To Me</h2>
-          <p>
-            Here you can shoose some people that need to cope with enxaity to
-            talk with. Choosen cards will be saved in your profile
-          </p>
-          <hr />
-          <Cards cards={cards} />
-          <hr />
-          <div className="text-center my-5">
-            <button class="btn btn-success m-2 m-sm-1" onClick={prev}>
-              prev
-            </button>
-            <span className="m-2 m-sm-1">
-              {offset} - {offset + cardsOnPage}
-            </span>
-            <button class="btn btn-success m-2 m-sm-1" onClick={next}>
-              next
-            </button>
-          </div>
-        </div>
-      )}
-    </>
+    <div className="container">
+      <hr />
+      <h2>Talk To Me</h2>
+      <p>
+        Here you can shoose some people that need to cope with enxaity to talk
+        with. Choosen cards will be saved in your profile
+      </p>
+      <hr />
+      {loading ? <LoadingScreen /> : <Cards cards={cards} />}
+      <hr />
+      <div className="text-center my-5">
+        <button class="btn btn-success m-2 m-sm-1" onClick={prev}>
+          prev
+        </button>
+        <span className="m-2 m-sm-1">
+          {offset} - {offset + cardsOnPage}
+        </span>
+        <button class="btn btn-success m-2 m-sm-1" onClick={next}>
+          next
+        </button>
+      </div>
+    </div>
   );
 };
 

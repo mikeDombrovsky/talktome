@@ -78,7 +78,7 @@ export const _getAllCards = async (offset, role, user_id) => {
     .andWhere("cards.is_public", true)
     .andWhere("cards.role", role);
 
-  const size  = row[0].count;
+  const size  = Number(row[0].count);
   console.log(size, row);
 
   const cards = await db("cards")
