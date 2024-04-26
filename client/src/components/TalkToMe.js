@@ -56,7 +56,7 @@ const TalkToMe = () => {
   return (
     <div className="container">
       <hr />
-      <h2>Talk To Me</h2>
+      <h2>"Talk to me" cards</h2>
       <p>
         Here you can shoose some people that need to cope with enxaity to talk
         with. Choosen cards will be saved in your profile
