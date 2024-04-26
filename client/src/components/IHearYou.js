@@ -56,7 +56,7 @@ const IHearYou = () => {
   return (
     <div className="container">
       <hr />
-      <h2>I hear you cards</h2>
+      <h2>"I hear you" cards</h2>
       <hr />
       <p>
         Here you can shoose some people that want to talk with you to help.
