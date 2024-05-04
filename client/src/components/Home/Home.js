@@ -7,7 +7,7 @@ const Home = () => {
         situation. One small talk may significantly improve one's psychological
         state. We as humans may help each other.
       </h6>
-      <img src="./talk.gif" className="m-3"/>
+      <img src="./talk.gif" className="m-3 w-100"/>
     </div>
   );
 };
