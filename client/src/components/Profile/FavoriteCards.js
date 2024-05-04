@@ -19,9 +19,10 @@ const FavoriteCards = ({ cards }) => {
       console.log("deleted favorite:", favorite);
       console.log("parent = ", e.target.parentElement);
       e.target.parentElement.remove();
-      // fetchFavorites();
+      alert("Removed from favorites")
     } catch (err) {
       console.log(err);
+      alert("oops, something went wrong")
     }
   };
 

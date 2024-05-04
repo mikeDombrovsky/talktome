@@ -15,11 +15,12 @@ const Cards = ({ cards }) => {
         return console.log("oops, something went wrong");
       }
       const favorite = await resp.json();
-      console.log(favorite);
+      alert("Added to favorites")
       
       e.target.parentElement.remove();
     } catch (err) {
       console.log(err);
+      alert("oops, something went wrong")
     }
   };
 
