@@ -12,7 +12,7 @@ const Cards = ({ cards }) => {
       if (!resp.ok) {
         console.log(resp.ok);
         console.log(resp);
-        return console.log("oops, something went wrong");
+        return alert("oops, something went wrong");
       }
       const favorite = await resp.json();
       alert("Added to favorites")

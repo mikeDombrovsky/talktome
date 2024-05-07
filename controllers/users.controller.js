@@ -46,12 +46,12 @@ export const login = async (req, res) => {
     //find in db user with this email, return arr
     const row = await _login(lower_email);
     if (row.length === 0) {
-      return res.status(404).json({ msg: "wrong credentials" });
+      return res.status(400).json({ msg: "wrong credentials" });
     }
     const match = await bcrypt.compare(password + "", row[0].password);
 
     if (!match) {
-      return res.status(404).json({ msg: "wrong credentials" });
+      return res.status(400).json({ msg: "wrong credentials" });
     }
     //create new access token
     console.log(row);
@@ -75,7 +75,7 @@ export const login = async (req, res) => {
     res.json({ token: accessToken });
   } catch (err) {
     console.log(err);
-    res.status(404).json({ msg: "something went wrong" });
+    res.status(500).json({ msg: "something went wrong" });
   }
 };
 

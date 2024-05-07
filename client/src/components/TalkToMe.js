@@ -36,7 +36,7 @@ const TalkToMe = () => {
       });
 
       if (!resp.ok) {
-        return console.log("cannot fetch cards");
+         return console.log("cannot fetch cards");
       }
 
       const { cards, size } = await resp.json();
@@ -58,8 +58,8 @@ const TalkToMe = () => {
       <hr />
       <h2>"Talk to me" cards</h2>
       <p>
-        Here you can shoose some people that need to cope with enxaity to talk
-        with. Choosen cards will be saved in your profile
+        Here you can choose some people that need to cope with entity to talk
+        with. Chosen cards will be saved in your profile.
       </p>
       <hr />
       {loading ? <LoadingScreen /> : <Cards cards={cards} />}

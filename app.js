@@ -36,6 +36,6 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
 });
 
-app.listen(process.env.PORT, (err) =>
-  console.log(err ? err : "run on " + process.env.PORT)
+app.listen(process.env.SERVER_PORT, (err) =>
+  console.log(err ? err : "run on " + process.env.SERVER_PORT)
 );

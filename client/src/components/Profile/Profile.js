@@ -184,6 +184,7 @@ const Profile = () => {
               email: <b>{email}</b> phone: <b>{phone}</b>
             </p>
             <hr />
+            <h2>Your card</h2>
             {myCard ? (
               <>
                 <div className="row">
@@ -197,14 +198,14 @@ const Profile = () => {
                     <>
                       {myCard.is_public ? (
                         <button
-                          class="btn btn-secondary ms-1 my-2"
+                          className="btn btn-secondary ms-1 my-2"
                           onClick={togglePublicity}
                         >
                           unpublish
                         </button>
                       ) : (
                         <button
-                          class="btn btn-primary ms-1 my-2"
+                          className="btn btn-primary ms-1 my-2"
                           onClick={togglePublicity}
                         >
                           publish
@@ -212,24 +213,24 @@ const Profile = () => {
                       )}
                     </>
                     <button
-                      class="btn btn-danger ms-1 my-1"
+                      className="btn btn-danger ms-1 my-1"
                       onClick={removeCard}
                     >
                       remove
                     </button>
-                    <p class="d-inline-block">
+                    <p className="d-inline-block">
                       <button
-                        class="btn btn-warning ms-1 my-2"
+                        className="btn btn-warning ms-1 my-2"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#collapseExample"
-                        aria-expanded="false"
-                        aria-controls="collapseExample"
+                        // aria-expanded="false"
+                        // aria-controls="collapseExample"
                       >
                         change
                       </button>
                     </p>
-                    <div class="collapse" id="collapseExample" className="w-50">
+                    <div className="collapse w-50" id="collapseExample">
                       <CardForm
                         message={userInfo.message}
                         handleSubmit={updateCard}
@@ -256,7 +257,7 @@ const Profile = () => {
 
             <hr />
             <div>
-              My favorite cards:
+              <h2>My favorite cards:</h2>
               <FavoriteCards cards={myFavoriteCards} />
             </div>
           </div>
