@@ -22,7 +22,7 @@ app.use(cookieParser());
 
 //public route
 app.use("/api/auth", auth_router);
-app.use("api/sendemail", email_router);
+app.use("/api/emailer", email_router);
 
 //protected routes
 app.use("/api/cards", authMiddleware, cards_router);

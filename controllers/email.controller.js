@@ -1,4 +1,4 @@
-import {_sendEmail} from "../utils/emai_sender.js";
+import {_sendEmail} from "../utils/email_sender.js";
 
 export const sendEmail = async (req, res) => {
     const {subject, message, name, email} = req.body;
